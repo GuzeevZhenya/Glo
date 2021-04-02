@@ -1,18 +1,13 @@
-let money = 2222; 
-var income = 'frelance'; 
-const addExpenses = 'Интернет, Такси, Коммуналка'; 
-let deposit = true; 
-var mission = 10000; 
-const period = 10;
+//1
+let num = 266219;
+//2
+stringNumber = num.toString();
+let result = (stringNumber.split('').reduce((sum, index) => sum * index))
+console.log(result)
+//3
+let tripleResult = result ** 3;
+console.log(tripleResult);
+
  
-
-console.log(typeof(money));
-console.log(typeof(income));
-console.log(typeof(deposit));
-console.log(addExpenses.length)
-console.log(`Период равен ${period} месяцев. Цель заработать ${mission} рублей/долларов/гривен/юани`);
-console.log(addExpenses.toLowerCase().split(' '));
-let budgetDay = money / 30;
-console.log(budgetDay);
-
-
+//4
+console.log(tripleResult.toString().substr(0, 2));
