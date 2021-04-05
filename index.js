@@ -21,6 +21,11 @@ switch (lang) {
 }
 
 let langArray = [];
-langArray['ru'] = ['Пн','Вт','СР','Чт','Пт','Сб','Вс'];
+langArray['ru'] = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 langArray['en'] = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-console.log(langArray[lang]);
+console.log(langArray[lang].join(','));
+ 
+let namePerson = 'Максим';
+console.log((namePerson === 'Артем') ? 'директор' :
+    (namePerson === 'Максим') ? 'преподаватель' :
+    'студент');
