@@ -1,18 +1,5 @@
 let mission = 10000; 
 
-//1
-let num = 266219;
-//2
-stringNumber = num.toString();
-let result = (stringNumber.split('').reduce((sum, index) => sum * index))
-console.log(result)
-//3
-let tripleResult = result ** 3;
-console.log(tripleResult);
-
-//4
-console.log(tripleResult.toString().substr(0, 2));
-
 let money = prompt('Ваш месячный доход');
 console.log(money);
 
@@ -22,14 +9,12 @@ console.log(addExpenses);
 let deposit = confirm('Есть ли у вас депозит в банке');
 console.log(deposit);
 
-
 let expenses1 = prompt('Введите обязательную статью расходов');
 let expenses2 = prompt('Введите обязательную статью расходов');
 
 let amount1 = prompt('Во сколько это обойдется');
 let amount2 = prompt('Во сколько это обойдется');
 
- 
 let budgetMonth = +amount1 + +amount2;
 console.log(budgetMonth);
 
@@ -38,6 +23,7 @@ console.log(missionMonth);
 
 let budgetDay = budgetMonth / 30;
 console.log(budgetDay);
+
 if (budgetDay > 1200) {
 	console.log('У вас высокий уровень дохода')
 } else if(budgetDay >= 600 && budgetDay <= 1200) {
