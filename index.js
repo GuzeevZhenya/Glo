@@ -1,47 +1,16 @@
-let mission = 10000;
-let money = prompt('Ваш месячный доход');
-let costs = prompt('Сумма расходов за месяц');
-
-let accumulatedMonth = getAccumulatedMonth(money, costs);
-
-let expenses1 = +prompt('Введите обязательную сумму расходов');
-let expenses2 = +prompt('Введите обязательную сумму расходов');
-
-let budgetDay = accumulatedMonth / 30;
-
-
-function getExpensesMonth(expenses1,expenses2){
-	return expenses1+expenses2;
-}
-
-function getAccumulatedMonth(income,costs){
-	return income - costs;
-}
-
-function getTargetMonth(accumulatedMonth,mission){
-		return mission / accumulatedMonth;
-}
-
-function showTypeOf(data) {
-	return(typeof (data));
-}
-
-function getStatusIncome() {
-	if (budgetDay < 300) {
-		return('Низкий уровень доходов');
-	}
-	else if (budgetDay <=800) {
-		return('Средний уровень доходов');
+function hardTaskFour(name) {
+	if (typeof (name) != 'string') {
+			console.log(('Вы ввели не строку'))
 	} else {
-		return('Высокий уровень доходов');
+		console.log(name.trim());
+	if (name.length > 30) {
+		console.log(name.slice(0, 30) + '...');
+	} else {
+		console.log(name);
 	}
+	}
+	
 }
-
-
-console.log(getExpensesMonth(expenses1, expenses2))
-console.log(getTargetMonth(accumulatedMonth, mission));
-console.log(budgetDay);
-console.log(showTypeOf(money));
-console.log(getStatusIncome());
-
-
+ 
+hardTaskFour(' ergergergergergergergergergergergkkjghvndgjdfgdgsdfkrt');
+hardTaskFour(43);
