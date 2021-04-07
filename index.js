@@ -1,56 +1,37 @@
-let mission = 10000;
-let money = prompt('Ваш месячный доход');
-let costs = prompt('Сумма расходов за месяц');
+let arr = ['123','435','213','5423','6523','234','43'];
 
-let accumulatedMonth = getAccumulatedMonth(money, costs);
-
-
-function getAccumulatedMonth(income,costs){
-	return income - costs;
-}
-
-function getTargetMonth(month,mission){
-		return mission / month;
-}
-
-
-
-
-function start() {
-	do {
-    money = prompt('Ваш месячный доход?');
-} while (!isNaN(money));
-
-}
-start();
-
-function getExpensesMonth() {
-	let sum = 0;
-
-	for (let i = 0; i < 2; i++){
-		sum += +prompt('Во сколько это обойдеться');
-		if(isNaN(sum)){
-			console.log('Вы ввели не число')
-		}
+for (let i = 0; i < arr.length; i++){
+	if (arr[i][0] === '2' || arr[i][0] === '4') {
+		console.log(arr[i]);
 	}
-
-	console.log(sum);
-	return sum
-}
-getExpensesMonth();
-
-
-if (getTargetMonth() < 0) {
-	console.log('Цель не будет достигнута')
-	
-}
-else {
-	console.log('Цель будет достигнута')
 }
 
-
-console.log(getTargetMonth(accumulatedMonth, mission));
-
+console.log(arr.map(item => item).filter(item => item[0] == '2' || item[0] == '4'));
 
 
 
+
+const dividers = el => {
+	let arr = [];
+	if (el !== 1) {
+			arr.push(1);
+			for (let j = 2; j * j <= el; j++) {
+					if (el % j === 0) {
+							arr.push(j);
+					}
+			}
+	}
+	arr.push(el);
+	return arr;
+}; 
+
+for (let i = 1; i <= 100; i++) {
+	const n = dividers(i);
+	if (n.length <= 2) {
+			console.log(`${i}: Простое число. Делители этого числа: ${n.join(', ')}`);
+	}
+}
+
+for (let i = 1; i <= 100; i++) {
+	console.log(`${i}: Делители этого числа: ${dividers(i).join(', ')}`);
+}
