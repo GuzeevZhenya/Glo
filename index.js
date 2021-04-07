@@ -16,13 +16,13 @@ function getTargetMonth(month,mission){
 
 
 
-// function start() {
-// 	do {
-//     money = prompt('Ваш месячный доход?');
-// } while (!isNumber(money));
+function start() {
+	do {
+    money = prompt('Ваш месячный доход?');
+} while (!isNaN(money));
 
-// }
-// start();
+}
+start();
 
 function getExpensesMonth() {
 	let sum = 0;
