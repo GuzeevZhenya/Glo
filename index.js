@@ -3,10 +3,15 @@ let money = prompt('Ваш месячный доход');
 let costs = prompt('Сумма расходов за месяц');
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую',
     'интернет, такси, коммуналка');
+let deposit = confirm('Есть ли у вас депозит в банке?');
+let period = 12;
+let income = 'фриланс';
 
 let accumulatedMonth = getAccumulatedMonth(money, costs);
 
+let expensesProduct1 = prompt('Введите обязательную статью расходов?', 'продукты');
 let expenses1 = +prompt('Введите обязательную сумму расходов');
+let expensesProduct2 = prompt('Введите обязательную статью расходов?', 'бензин, транспорт');
 let expenses2 = +prompt('Введите обязательную сумму расходов');
 
 let budgetDay = accumulatedMonth / 30;
@@ -25,8 +30,12 @@ function getTargetMonth(month,mission){
 }
 
 function showTypeOf(data) {
-	return(typeof (data));
+    console.log(data, typeof (data));
 }
+
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
 
 function getStatusIncome() {
 	if (budgetDay < 300) {
