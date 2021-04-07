@@ -21,7 +21,7 @@ function getAccumulatedMonth(income,costs){
 }
 
 function getTargetMonth(month,mission){
-		return mission / accumulatedMonth;
+		return mission / month;
 }
 
 function showTypeOf(data) {
