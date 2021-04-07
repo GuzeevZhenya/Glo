@@ -1,6 +1,8 @@
 let mission = 10000;
 let money = prompt('Ваш месячный доход');
 let costs = prompt('Сумма расходов за месяц');
+let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую',
+    'интернет, такси, коммуналка');
 
 let accumulatedMonth = getAccumulatedMonth(money, costs);
 
@@ -10,15 +12,15 @@ let expenses2 = +prompt('Введите обязательную сумму ра
 let budgetDay = accumulatedMonth / 30;
 
 
-function getExpensesMonth(expenses1,expenses2){
-	return expenses1+expenses2;
+function getExpensesMonth(exp1,exp2){
+	return exp1 + exp2;
 }
 
 function getAccumulatedMonth(income,costs){
 	return income - costs;
 }
 
-function getTargetMonth(accumulatedMonth,mission){
+function getTargetMonth(month,mission){
 		return mission / accumulatedMonth;
 }
 
@@ -43,5 +45,6 @@ console.log(getTargetMonth(accumulatedMonth, mission));
 console.log(budgetDay);
 console.log(showTypeOf(money));
 console.log(getStatusIncome());
+console.log(addExpenses.toLocaleLowerCase().split(', '));
 
 
