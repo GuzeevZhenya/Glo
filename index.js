@@ -6,11 +6,6 @@ for (let i = 0; i < arr.length; i++){
 	}
 }
 
-console.log(arr.map(item => item).filter(item => item[0] == '2' || item[0] == '4'));
-
-
-
-
 const dividers = el => {
 	let arr = [];
 	if (el !== 1) {
@@ -35,3 +30,5 @@ for (let i = 1; i <= 100; i++) {
 for (let i = 1; i <= 100; i++) {
 	console.log(`${i}: Делители этого числа: ${dividers(i).join(', ')}`);
 }
+
+console.log(arr.map(item => item).filter(item => item[0] == '2' || item[0] == '4'));
