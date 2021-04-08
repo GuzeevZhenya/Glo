@@ -12,11 +12,10 @@ function start(number) {
 	let attempts = 3;
 
 	function game() {
-		
-		attempts--;
+	attempts--;
 		if (attempts < 0) {
 			if (confirm('Игра оконченна,повторить?')) {
-				start();
+				start(getRandomNumber(100));
 			} else {
 				alert('До свидания');
 				return
@@ -30,9 +29,7 @@ function start(number) {
 			}
 
 			if (isNum(userNumber)) {
-			
 				if (userNumber === num) {
-					alert('Вы угадали число')
 				} else if (userNumber > num) {
 					alert(`Ваше число больше загаданного, ${attempts}`)
 					game();
@@ -40,8 +37,12 @@ function start(number) {
 					alert(`Ваше число меньше загаданного, ${attempts}`)
 					game();
 				} else {
-					alert('До свидания')
-					return
+					if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
+						start();
+				} else {
+						alert('До свидания');
+						return;
+				}
 				}
 			}
 			else {
