@@ -5,26 +5,41 @@ function getRandomNumber(number) {
 
 function start(number) {
 	let num = number;
+	let attempts = 3;
 
 	function game() {
+		attempts--;
 
-		const userNumber = +prompt('Введите число от 1 до 100 осталось');
-		console.log(userNumber);
-		if (userNumber === num) {
-			alert('Вы угадали число')
-		} else if (userNumber > num) {
-			alert('Ваше число больше загаданного')
-			game();
-		} else if (userNumber < num) {
-			alert('Ваше число меньше загаданного')
-			game();
+		if (attempts < 0) {
+			if (confirm('Игра оконченна,повторить?')) {
+				start();
+			} else {
+				alert('До свидания');
+				return
+			}
 		} else {
-			alert('До свидания')
-			return
+			const userNumber = prompt('Введите число от 1 до 100 осталось');
+
+			if (userNumber === null) {
+				alert('До свидания');
+				return
+			}
+
+			if (userNumber === num) {
+				alert('Вы угадали число')
+			} else if (userNumber > num) {
+				alert(`Ваше число больше загаданного, ${attempts}`)
+				game();
+			} else if (userNumber < num) {
+				alert(`Ваше число меньше загаданного, ${attempts}`)
+				game();
+			} else {
+				alert('До свидания')
+				return
+			}
 		}
-		
 	}
- game();
+	game();
 }
 
 
