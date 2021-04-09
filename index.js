@@ -26,7 +26,7 @@ let expenses = [];
 // на вопрос 'Во сколько это обойдется?’ в функции  getExpensesMonth
 const getExpensesMonth = () => {
 	let sum = 0;
-	for (let i = 0; i < 4; i++) {
+	for (let i = 0; i < 2; i++) {
 			expenses[i] = prompt('Введите обязательную статью расходов?');
 			sum += (() => {
 					let n = 0;
