@@ -10,7 +10,7 @@ let weekDay = data.getDay();
 
 month.forEach((item, i) => {
 	let str = item;
-	if (i === weekDay-1) {
+	if (i === weekDay) {
 		str =	`<b>${item}</b>`
 	} else {
 		str = `${item}`
