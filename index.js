@@ -1,6 +1,6 @@
-function getRandomNumber(number) {
-	return Math.floor(Math.random() * 100);
-}
+const getRandomInt = (max) => {
+    return Math.floor(Math.random() * Math.floor(max));
+};
 
 function isNum (number) {
 	return !isNaN(parseFloat(number)) && isFinite(number);
@@ -9,7 +9,7 @@ function isNum (number) {
 
 function start(number) {
 	let num = number;
-	let attempts = 3;
+	let attempts = 10;
 
 	function game() {
 	attempts--;
