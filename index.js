@@ -1,4 +1,4 @@
-const getRandomInt = (max) => {
+const getRandomNumber = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
@@ -10,11 +10,12 @@ function isNum (number) {
 function start(number) {
 	let num = number;
 	let attempts = 10;
+	let randomNumber = getRandomNumber(100);
 
 	function game() {
 	attempts--;
 		if (attempts < 0) {
-			if (confirm('Игра оконченна,повторить?')) {
+			if (confirm(`Игра оконченна,повторить? Было загаданно ${randomNumber}`)) {
 				start(getRandomNumber(100));
 			} else {
 				alert('До свидания');
@@ -30,11 +31,11 @@ function start(number) {
 
 			if (isNum(userNumber)) {
 				if (userNumber === num) {
-				} else if (userNumber > num) {
-					alert(`Ваше число больше загаданного, ${attempts}`)
+				} else if (userNumber > randomNumber) {
+					alert(`Число меньше  вашего, осталось ${attempts} попыток`)
 					game();
-				} else if (userNumber < num) {
-					alert(`Ваше число меньше загаданного, ${attempts}`)
+				} else if (userNumber <randomNumber) {
+					alert(`Число больше вашего, осталось ${attempts} попыток`)
 					game();
 				} else {
 					if (confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?')) {
@@ -56,4 +57,4 @@ function start(number) {
 }
 
 
-start(getRandomNumber(100));
+start();
