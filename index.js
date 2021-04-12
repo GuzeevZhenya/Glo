@@ -28,7 +28,7 @@ let appData = {
 	moneyDeposit: 0,
 	addExpenses: [], // строка с перечислением дополнительных расходов
 	expenses: {}, //список обязательных статей расходов
-	// deposit: false, // надичие депозита в банке
+	deposit: false, // надичие депозита в банке
 	getExpensesMonth: function () {
 		appData.expensesMonth = 0;
 		for (let elem in appData.expenses) {
@@ -56,9 +56,16 @@ let appData = {
 			'У вас высокий уровень дохода';
 	},
 	asking: function () {
+		let itemIncome = '';
 		if (confirm('Есть ли у вас доп источник заработка? ')) {
-			let itemIncome = prompt('Какой у вас есть доп заработок?', 'Таксую');
-			let cashIncome = prompt('Сколько в месяц зарабатываете на этом', 10000);
+			do {
+				itemIncome = prompt('Какой у вас есть доп заработок?', 'Таксую');
+			}while(!isString(itemIncome))
+		
+			let cashIncome = 0;
+			do {
+				cashIncome = prompt('Сколько в месяц зарабатываете на этом', 10000);
+			}while(cashIncome.trim().length === 0 || !isNumber(cashIncome))
 			appData.income[itemIncome] = cashIncome;
 		}
 
@@ -89,30 +96,33 @@ let appData = {
 	},
 	getInfoDeposit: () => {
 		if (appData.deposit) {
-				let n = 0;
-				do {
-						n = prompt('Какой годовой процент?', '10');
-				} while (!isNumber(n) && n > 0);
-				appData.precentDeposit = +n;
-				do {
-						appData.moneyDeposit = prompt('Какая сумма заложена?', 10000);
-				} while (!isNumber(n) && n > 0);
-				appData.moneyDeposit = +n;
+			let n = 0;
+			do {
+				n = prompt('Какой годовой процент?', '10');
+			} while (n.trim().length === 0 || !isNumber(n));
+			appData.percentDeposit = +n;
+			do {
+				n = prompt('Какая сумма заложена?', 10000);
+			} while (n.trim().length === 0 || !isNumber(n));
+			appData.moneyDeposit = +n;
 		}
-},
+	},
 	calcSavedMoney: function () {
 		return appData.budgetMonth * appData.period;
 	}
 }
 
-
 appData.asking();
 appData.getExpensesMonth();
 appData.getBudget();
 
+appData.getInfoDeposit();
 const targetMonth = appData.getTargetMonth();
 
-appData.getInfoDeposit();
+console.log('Наша программа включает в себя данные: ');
+for (let elem in appData) {
+	console.log(elem, appData[elem]);
+}
 
 console.log('Расходы за месяц: ', appData.expensesMonth);
 console.log(targetMonth >= 0 ?
@@ -120,11 +130,6 @@ console.log(targetMonth >= 0 ?
 	'Цель не будет достигнута');
 console.log('Уровень дохода: ', appData.getStatusIncome());
 
-console.log('Наша программа включает в себя данные: ');
-for (let elem in appData) {
-	console.log(elem, appData[elem]);
-}
 
 
 console.log('2) ' + appData.addExpenses.map((val, i) => val[0].toUpperCase() + val.slice(1)).join(', '));
-
