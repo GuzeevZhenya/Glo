@@ -22,12 +22,6 @@ function addZero(n) {
 	return (parseInt(n, 10) < 10 ? '0' : '') + n;
 }
 
-function time() {
-	
-}
-
-
-
 function showTime() {
 	let data = new Date();
 	let hour = data.getHours(); //Время
