@@ -1,40 +1,16 @@
-let timeToday = document.querySelector('#time');
-let newTimeToday = document.querySelector('#time-1');
 
 
-let days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятницы', 'Субботы'];
-let month = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+let books = document.querySelectorAll('.book');
+let adv = document.querySelector('.adv');
 
 
-function hourFormat(hour) {
-	let hoursAray = [2, 3, 4, 22, 23, 24];
-	if (hour === 1 || hour === 21) {
-			return 'час'
-	}
-	if (hoursAray.indexOf(hour) !=-1) {
-		return 'часа'
-	} else {
-		return 'часов'
-	}
-}
+//Заменить картинку заднего фона на другую из папки image
+let bodyBackground = document.querySelector('body');
+bodyBackground.style.backgroundImage = 'url(image/you-dont-know-js.jpg)';
 
-function addZero(n) {
-	return (parseInt(n, 10) < 10 ? '0' : '') + n;
-}
+//справить заголовок в книге 3( Получится - "Книга 3. this и Прототипы Объектов")
+books[4].querySelector('a').textContent = 'Книга 3. this и Прототипы Объектов'
 
-function showTime() {
-	let data = new Date();
-	let hour = data.getHours(); //Время
-	let min = data.getMinutes(); //Минуты
-	let sec = data.getSeconds(); //Секунды
-	
-	let dayName = data.getDay(); //День
-	let monthDay = data.getMonth(); //Месяц
-	let yearDay = data.getFullYear(); //Год
-	let dayToday = data.getDate();
-	timeToday.innerHTML = `Сегодня ${days[dayName]}, ${dayToday} ${month[monthDay]}, ${yearDay} года ,${hour} ${hourFormat()} ${addZero(min)} минут ${addZero(sec)} секунды  `;
-	 
-	newTimeToday.innerHTML = `${addZero(dayToday)}.${addZero(monthDay + 1)}.${addZero(yearDay)} - ${hour}:${addZero(min)}:${addZero(sec)}`
-}
-setInterval(showTime, 1000);
+//Удалить рекламу со страницы
 
+adv.remove();
