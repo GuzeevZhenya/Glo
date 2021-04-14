@@ -72,7 +72,7 @@ let appData = {
 	expenses: {}, //список обязательных статей расходов
 	deposit: false, // надичие депозита в банке
 	start: function () {
-
+	
 		if (salaryAmountInput.value === '') {
 			alert('Ошибка ,поле "Месячный доход" должно быть заполнено!')
 		}
@@ -86,6 +86,7 @@ let appData = {
 		appData.getBudget();
 
 		appData.showResult();
+		salaryAmountInput.value = '';
 
 	},
 	//Добавление кнопок,обязательные раходы
@@ -125,6 +126,7 @@ let appData = {
 			for (let key in appData.income) {
 				appData.incomeMonth += +appData.income[key];
 			}
+			item.value = '';
 		})
 	},
 	getAddIncome: function () {
@@ -213,3 +215,26 @@ salaryAmountInput.addEventListener('input', appData.blockStart)
 
 appData.getInfoDeposit();
 const targetMonth = appData.getTargetMonth();
+
+
+
+// function changeString(e) {
+// 	let target = e.target.value;
+// 	if (!/^[,. а-яА-ЯёЁ]+$/.test(target)) {
+// 		alert('Доупускается ввод только русских букв, пробела, точки и запятой!');
+// 	}	
+// }
+// function changeNumber(e) {
+// 	let target = e.target.value;
+// 	if (!/^[\d]+$/.test(e.target.value)) {
+// 		alert('Доупускается ввод только цифр!');
+// 	}	
+ 
+// }
+// document.querySelectorAll('[placeholder="Наименование"]').forEach(item => {
+// 	item.addEventListener('input', changeString);
+// })
+
+// document.querySelectorAll('[placeholder="Сумма"]').forEach(item => {
+// 	item.addEventListener('input', changeNumber);
+// })
