@@ -86,7 +86,7 @@ let appData = {
 		appData.getBudget();
 
 		appData.showResult();
-		salaryAmountInput.value = '';
+	 
 
 	},
 	//Добавление кнопок,обязательные раходы
