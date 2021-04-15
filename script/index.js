@@ -77,7 +77,7 @@ let appData = {
 		// 	alert('Ошибка ,поле "Месячный доход" должно быть заполнено!')
 		// }
 	
-
+	
 		this.getExpenses();
 		this.getIncome();
 		this.getExpensesMonth();
@@ -85,6 +85,7 @@ let appData = {
 		this.getAddIncome();
 		this.getBudget();
 		this.showResult();
+	
 
 	},
 	showResult: function () {
@@ -130,18 +131,19 @@ let appData = {
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-			 expenses[itemExpenses] = cashExpenses;
+			 appData.expenses[itemExpenses] = cashExpenses;
 			}
 		})
 	},
 	getIncome: function () {
+	 
 		this.incomeMonth = 0;
 		incomeItems.forEach(function (item) {
 			let itemIncome = item.querySelector('.income-title').value;
 			let cashIncome = item.querySelector('.income-amount').value;
 			if (itemIncome !== '' && cashIncome !== '') {
-				this.income[itemIncome] = +cashIncome;
-				this.incomeMonth += +cashIncome;
+				appData.income[itemIncome] = +cashIncome;
+				appData.incomeMonth += +cashIncome;
 			}
 		})
 	},
@@ -149,7 +151,7 @@ let appData = {
 		additionalIncomeItem.forEach(function (item) {
 			let itemValue = item.value.trim();
 			if (item.value !== '') {
-				this.addIncome.push(itemValue);
+				appData.addIncome.push(itemValue);
 			}
 		})
 	},
@@ -161,7 +163,7 @@ let appData = {
 		return this.expensesMonth;
 	},
 	getBudget: function () {
-		this.budget = +salaryAmount.value;
+		this.budget = +salaryAmountInput.value;
 		this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
 		this.budgetDay = Math.floor(this.budgetMonth / 30);
 	},
