@@ -86,7 +86,6 @@ let appData = {
 		appData.getBudget();
 
 		appData.showResult();
-		salaryAmountInput.value = '';
 
 	},
 	//Добавление кнопок,обязательные раходы
@@ -126,7 +125,6 @@ let appData = {
 			for (let key in appData.income) {
 				appData.incomeMonth += +appData.income[key];
 			}
-			item.value = '';
 		})
 	},
 	getAddIncome: function () {
@@ -139,12 +137,13 @@ let appData = {
 	},
 	showResult: function () {
 		monthBudgetValueInput.value = appData.budgetMonth;
-		monthExpensesValueInput.value = appData.expensesMonth;
 		dayBudgetValueInput.value = Math.floor(appData.budgetDay * 100) / 100;
+		monthExpensesValueInput.value = appData.expensesMonth;
+	
 		additionalExpensesValueInput.value = appData.addExpenses.join(', ');
 		additionalIncomeValueInput.value = appData.addIncome.join(',');
+		// incomePeriodValueInput.value = appData.calcSavedMoney();
 		targetMonthValueInput.value = Math.ceil(appData.getTargetMonth());
-		incomePeriodValueInput.value = appData.calcSavedMoney();
 		periodSelect.addEventListener('input', () => {
 			incomePeriodValueInput.value = appData.calcSavedMoney();
 		});
