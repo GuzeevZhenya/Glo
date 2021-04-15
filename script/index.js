@@ -76,7 +76,7 @@ let appData = {
 		// if (salaryAmountInput.value === '') {
 		// 	alert('Ошибка ,поле "Месячный доход" должно быть заполнено!')
 		// }
-		this.budget = +salaryAmountInput.value;
+	
 
 		this.getExpenses();
 		this.getIncome();
@@ -84,7 +84,6 @@ let appData = {
 		this.getAddExpenses();
 		this.getAddIncome();
 		this.getBudget();
-
 		this.showResult();
 
 	},
@@ -102,7 +101,7 @@ let appData = {
 	},
 	//Добавление кнопок,обязательные раходы
 	addExpensesBlock: function () {
-		let cloneExpensesItem = expensesItems[0].cloneNode(true);
+		const cloneExpensesItem = expensesItems[0].cloneNode(true);
 		expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
 		expensesItems = document.querySelectorAll('.expenses-items');
 		if (expensesItems.length === 3) {
@@ -110,7 +109,7 @@ let appData = {
 		}
 	},
 	addIncomeBlock: function () {
-		let cloneIncomeItem = incomeItems[0].cloneNode(true);
+		const cloneIncomeItem = incomeItems[0].cloneNode(true);
 		incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
 		incomeItems = document.querySelectorAll('.income-items');
 		if (incomeItems.length === 3) {
@@ -131,7 +130,7 @@ let appData = {
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-				this.expenses[itemExpenses] = cashExpenses;
+			 expenses[itemExpenses] = cashExpenses;
 			}
 		})
 	},
@@ -144,7 +143,6 @@ let appData = {
 				this.income[itemIncome] = +cashIncome;
 				this.incomeMonth += +cashIncome;
 			}
-
 		})
 	},
 	getAddIncome: function () {
@@ -163,11 +161,8 @@ let appData = {
 		return this.expensesMonth;
 	},
 	getBudget: function () {
+		this.budget = +salaryAmount.value;
 		this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
-		console.log(this.budget)
-		console.log(this.incomeMonth)
-		console.log(this.expensesMonth)
-		console.log(this.budgetMonth)
 		this.budgetDay = Math.floor(this.budgetMonth / 30);
 	},
 	getTargetMonth: function () {
@@ -209,17 +204,19 @@ let appData = {
 	}
 }
 
-let foo = this.start.bind(appData);
+let foo = appData.start.bind(appData);
+appData.blockStart();
+buttonStart.addEventListener('click', foo);
 
-this.blockStart();
-buttonStart.addEventListener('click', this.start);
-expensesPlus.addEventListener('click', this.addExpensesBlock);
-incomePlus.addEventListener('click', this.addIncomeBlock);
-periodSelect.addEventListener('input', this.calcSavedMoney);
-salaryAmountInput.addEventListener('input', this.blockStart)
 
-this.getInfoDeposit();
-const targetMonth = this.getTargetMonth();
+// buttonStart.addEventListener('click', appData.start);
+expensesPlus.addEventListener('click', appData.addExpensesBlock);
+incomePlus.addEventListener('click', appData.addIncomeBlock);
+periodSelect.addEventListener('input', appData.calcSavedMoney);
+salaryAmountInput.addEventListener('input', appData.blockStart)
+
+// appData.getInfoDeposit();
+// const targetMonth = appData.getTargetMonth();
 
 
 
