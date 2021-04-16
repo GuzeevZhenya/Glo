@@ -6,17 +6,20 @@ todoContainer = document.querySelector('.todo-container')
 
 
 //Массив со значениями
-const todoData = [ 
+let todoData = [ 
 ]
 
 
- 
-const render = function () {
+if (localStorage.getItem('taskAdd')) {
+	todoData = JSON.parse(localStorage.getItem('taskAdd'))
+}
 
+
+const render = function () {
 	todoList.textContent = "";
 	todoCompleted.textContent = "";
 	//Перебераем все дела из массива
-	todoData.forEach((item) => {
+	todoData.forEach((item,i) => {
 		//Создаем новый элемент li
 		const li = document.createElement('li');
 		li.classList.add('todo-item');
@@ -26,17 +29,14 @@ const render = function () {
 				'<button class="todo-remove"></button>'+
 				'<button class="todo-complete"></button>' +
 			'</div>';
-
-
+	
 	//Проверка куда нужно закидывать таски
 		if (item.completed) {
 			todoCompleted.append(li)
-			 
 		} else {
 			todoList.append(li);
 		}
-
-		 
+	
 		const todoComplet = li.querySelector('.todo-complete');
 		todoComplet.addEventListener('click', function () {
 			item.completed = !item.completed;
@@ -47,19 +47,24 @@ const render = function () {
 		const todoRemove = li.querySelector('.todo-remove')
 		todoRemove.addEventListener('click',function(e){
 			 if(e.target.className = "todo-remove"){
+				// jsonString = localStorage.getItem('taskAdd');
+				// todoData  = JSON.parse(jsonString);
+				//  todoData = todoData.filter(todo => todo !== e.target.parentNode.parentNode.textContent);
+				//  localStorage.setItem('taskAdd', JSON.stringify(todoData))
+				//  console.log(e.target.value)
+				todoData.splice(i, 1)
+			  console.log(todoData.splice(i, 1));	 
+			
+				localStorage.setItem('taskAdd', JSON.stringify(todoData))
+				 console.log(todoData);
 				 e.target.parentNode.parentNode.remove();
 			 }
 			
 		})
-
-		let local = JSON.parse(localStorage.getItem('taskAdd'));
+	
 		localStorage.setItem('taskAdd',JSON.stringify(todoData));
-		console.log(local);
-	 
-
 	})
 };
-
 
 todoControl.addEventListener('submit', (e) => {
 	e.preventDefault();
@@ -67,9 +72,7 @@ todoControl.addEventListener('submit', (e) => {
 	const newTodo = {
 		value: headerInput.value,
 		completed: false,
-
 	};
- 
 	if(newTodo.value === ''){
 		alert('Введите значение');
 	}else{
@@ -78,7 +81,8 @@ todoControl.addEventListener('submit', (e) => {
 	}
 	render();
 })
-
-
+ 
 
 render();
+
+ 
