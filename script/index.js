@@ -45,23 +45,13 @@ const render = function () {
 		
 		//Удаление элемента
 		const todoRemove = li.querySelector('.todo-remove')
-		todoRemove.addEventListener('click',function(e){
-			 if(e.target.className = "todo-remove"){
-				// jsonString = localStorage.getItem('taskAdd');
-				// todoData  = JSON.parse(jsonString);
-				//  todoData = todoData.filter(todo => todo !== e.target.parentNode.parentNode.textContent);
-				//  localStorage.setItem('taskAdd', JSON.stringify(todoData))
-				//  console.log(e.target.value)
-				todoData.splice(i, 1)
-			  console.log(todoData.splice(i, 1));	 
-			
-				localStorage.setItem('taskAdd', JSON.stringify(todoData))
-				 console.log(todoData);
-				 e.target.parentNode.parentNode.remove();
-			 }
-			
+		todoRemove.addEventListener('click', function (e) {
+			todoData.splice(i, 1)
+			const target = e.target;
+			target.parentNode.parentNode.remove();
+			localStorage.setItem('taskAdd', JSON.stringify(todoData))
+		 		
 		})
-	
 		localStorage.setItem('taskAdd',JSON.stringify(todoData));
 	})
 };
