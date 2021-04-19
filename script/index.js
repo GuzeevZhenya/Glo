@@ -15,9 +15,9 @@ button.addEventListener('click', function () {
 	// console.log(a);
 	// result = '';
 
-	let red = Math.floor(Math.random()*255).toString(16);
-	let blue = Math.floor(Math.random()*255).toString(16);
-	let green = Math.floor(Math.random()*255).toString(16);
+	let red = Math.floor(Math.random()*256).toString(16);
+	let blue = Math.floor(Math.random()*256).toString(16);
+	let green = Math.floor(Math.random()*256).toString(16);
 
 	let result = `#${red}${blue}${green}`
 	document.body.style.background = result;
