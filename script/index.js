@@ -57,6 +57,7 @@ const isString = (str, comma = false) => {
 	return pattern.test(str);
 };
 
+
 let appData = {
 	mission: 50000, // желаемая цель (Какую сумму хотите накопить)
 	income: {},
@@ -76,7 +77,13 @@ let appData = {
 		// if (salaryAmountInput.value === '') {
 		// 	alert('Ошибка ,поле "Месячный доход" должно быть заполнено!')
 		// }
-	
+		if (start.textContent === 'Рассчитать') {
+			this.disableInputs();
+			start.textContent = 'Сбросить';
+		} else {
+			start.textContent = 'Рассчитать';
+			this.reset();
+		}
 	
 		this.getExpenses();
 		this.getIncome();
@@ -89,16 +96,52 @@ let appData = {
 
 	},
 	showResult: function () {
+		 
 		monthBudgetValueInput.value = this.budgetMonth;
 		dayBudgetValueInput.value = this.budgetDay;
 		monthExpensesValueInput.value = this.expensesMonth;
 		additionalExpensesValueInput.value = this.addExpenses.join(', ');
 		additionalIncomeValueInput.value = this.addIncome.join(',');
-		incomePeriodValueInput.value = this.calcSavedMoney();
+		// incomePeriodValueInput.value = this.calcSavedMoney();
 		targetMonthValueInput.value = Math.ceil(this.getTargetMonth());
 		periodSelect.addEventListener('input', () => {
-			incomePeriodValueInput.value = this.calcSavedMoney();
+		incomePeriodValueInput.value = this.calcSavedMoney();
 		});
+	},
+	reset: function () {
+		let inputText = document.querySelectorAll('input[type=text]');
+		console.log(incomeItems.length);
+		console.log(incomeItems.value);
+		console.log(incomeItems.innerHTML);
+		for (let i = incomeItems.length - 1; i > 0; i--) {
+			incomeItems[i - 1].remove();
+		}
+		for (let i = expensesItems.length - 1; i > 0; i--) {
+			expensesItems[i - 1].remove();
+	}
+
+		incomePlus.style.display = '';
+  expensesPlus.style.display = '';
+			
+
+
+		inputText.forEach(item => {
+			item.value = '';
+			item.disabled = false;
+		})
+		this.getBudget();
+    this.blockStart();
+	 
+	},
+	disableInputs:function(){
+  
+		let inputText = document.querySelectorAll('input[type=text]');
+		inputText.forEach(item => {
+			item.disabled = 'disabled';
+			item.textContent = '';
+		})
+		this.getBudget();
+		this.blockStart();
 	},
 	//Добавление кнопок,обязательные раходы
 	addExpensesBlock: function () {
@@ -122,7 +165,7 @@ let appData = {
 		addExpenses.forEach(function (item) {
 			item = item.trim();
 			if (item !== '') {
-				this.addExpenses.push(item);
+				appData.addExpenses.push(item);
 			}
 		})
 	},
@@ -136,7 +179,6 @@ let appData = {
 		})
 	},
 	getIncome: function () {
-	 
 		this.incomeMonth = 0;
 		incomeItems.forEach(function (item) {
 			let itemIncome = item.querySelector('.income-title').value;
