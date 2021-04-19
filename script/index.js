@@ -20,13 +20,14 @@
 
 let result = '';
 let button = document.querySelector('.btn');
+let colorText = document.querySelector('.color-text');
 
 button.addEventListener('click', function () {
 	let red = Math.floor(Math.random(255) * 255);
 	let blue = Math.floor(Math.random(255) * 255);
 	let green = Math.floor(Math.random(255)*255);
  
-	let a = `rgb(${green},${red},${blue})`
-	console.log(a);
+	let a = `#${green.toString(16)}${red.toString(16)}${blue.toString(16)}`
+	colorText.textContent = a;
 	document.body.style.background = a
 })
