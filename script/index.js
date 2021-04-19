@@ -77,9 +77,8 @@ let appData = {
 		// if (salaryAmountInput.value === '') {
 		// 	alert('Ошибка ,поле "Месячный доход" должно быть заполнено!')
 		// }
-	
 
-		this.getExpenses();
+			this.getExpenses();
 		this.getIncome();
 		this.getExpensesMonth();
 		this.getAddExpenses();
@@ -94,8 +93,8 @@ let appData = {
 			start.textContent = 'Рассчитать';
 			this.reset();
 		}
-
 	},
+	//Вывод всей инфы
 	showResult: function () {
 		monthBudgetValueInput.value = this.budgetMonth;
 		dayBudgetValueInput.value = this.budgetDay;
@@ -108,19 +107,19 @@ let appData = {
 			incomePeriodValueInput.value = this.calcSavedMoney();
 		});
 	},
+	//Обнуление инпутов и полей 
 	reset: function () {
-  
 		let inputText = document.querySelectorAll('input[type=text]');
 		incomePlus.style.display = 'block';
 		expensesPlus.style.display = 'block';
-		console.log(incomeItems.length);
-	  for (let i = incomeItems.length; i > 1; i--) {
-	  	incomeItems[i - 1].remove();
-	  };
-	  for (let i = expensesItems.length; i > 1; i--) {
-	  	expensesItems[i - 1].remove();
-	  };
-	 
+
+		for (let i = incomeItems.length; i > 1; i--) {
+			incomeItems[i - 1].remove();
+		};
+		for (let i = expensesItems.length; i > 1; i--) {
+			expensesItems[i - 1].remove();
+		};
+
 		incomePlus.style.display = '';
 		expensesPlus.style.display = '';
 
@@ -131,9 +130,23 @@ let appData = {
 		this.getBudget();
 		this.blockStart();
 
-	},
-	disableInputs: function () {
+		
 
+		this.budget = 0,
+		this.budgetDay = 0,
+		this.budgetMonth = 0,
+		this.expensesMonth = 0,
+		this.percentDeposit = 0,
+		this.incomeMonth = 0,
+		this.moneyDeposit = 0,
+		this.addExpenses = [],
+		this.addIncome = [],
+		this.income = {},
+		this.expenses = {}
+
+	},
+	//Блокирование ввода при нажатии на расчет
+	disableInputs: function () {
 		let inputText = document.querySelectorAll('input[type=text]');
 		inputText.forEach(item => {
 			item.disabled = 'disabled';
