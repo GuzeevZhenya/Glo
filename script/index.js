@@ -77,14 +77,8 @@ let appData = {
 		// if (salaryAmountInput.value === '') {
 		// 	alert('Ошибка ,поле "Месячный доход" должно быть заполнено!')
 		// }
-		if (start.textContent === 'Рассчитать') {
-			this.disableInputs();
-			start.textContent = 'Сбросить';
-		} else {
-			start.textContent = 'Рассчитать';
-			this.reset();
-		}
 	
+
 		this.getExpenses();
 		this.getIncome();
 		this.getExpensesMonth();
@@ -92,11 +86,17 @@ let appData = {
 		this.getAddIncome();
 		this.getBudget();
 		this.showResult();
-	
+
+		if (start.textContent === 'Рассчитать') {
+			this.disableInputs();
+			start.textContent = 'Сбросить';
+		} else {
+			start.textContent = 'Рассчитать';
+			this.reset();
+		}
 
 	},
 	showResult: function () {
-		 
 		monthBudgetValueInput.value = this.budgetMonth;
 		dayBudgetValueInput.value = this.budgetDay;
 		monthExpensesValueInput.value = this.expensesMonth;
@@ -105,36 +105,35 @@ let appData = {
 		// incomePeriodValueInput.value = this.calcSavedMoney();
 		targetMonthValueInput.value = Math.ceil(this.getTargetMonth());
 		periodSelect.addEventListener('input', () => {
-		incomePeriodValueInput.value = this.calcSavedMoney();
+			incomePeriodValueInput.value = this.calcSavedMoney();
 		});
 	},
 	reset: function () {
+  
 		let inputText = document.querySelectorAll('input[type=text]');
+		incomePlus.style.display = 'block';
+		expensesPlus.style.display = 'block';
 		console.log(incomeItems.length);
-		console.log(incomeItems.value);
-		console.log(incomeItems.innerHTML);
-		for (let i = incomeItems.length - 1; i > 0; i--) {
-			incomeItems[i - 1].remove();
-		}
-		for (let i = expensesItems.length - 1; i > 0; i--) {
-			expensesItems[i - 1].remove();
-	}
-
+	  for (let i = incomeItems.length; i > 1; i--) {
+	  	incomeItems[i - 1].remove();
+	  };
+	  for (let i = expensesItems.length; i > 1; i--) {
+	  	expensesItems[i - 1].remove();
+	  };
+	 
 		incomePlus.style.display = '';
-  expensesPlus.style.display = '';
-			
-
+		expensesPlus.style.display = '';
 
 		inputText.forEach(item => {
 			item.value = '';
 			item.disabled = false;
 		})
 		this.getBudget();
-    this.blockStart();
-	 
+		this.blockStart();
+
 	},
-	disableInputs:function(){
-  
+	disableInputs: function () {
+
 		let inputText = document.querySelectorAll('input[type=text]');
 		inputText.forEach(item => {
 			item.disabled = 'disabled';
@@ -174,7 +173,7 @@ let appData = {
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-			 appData.expenses[itemExpenses] = cashExpenses;
+				appData.expenses[itemExpenses] = cashExpenses;
 			}
 		})
 	},
@@ -197,7 +196,7 @@ let appData = {
 			}
 		})
 	},
-	
+
 	getExpensesMonth: function () {
 		for (let elem in this.expenses) {
 			this.expensesMonth = +this.expensesMonth + +this.expenses[elem];
@@ -212,18 +211,18 @@ let appData = {
 	getTargetMonth: function () {
 		return Math.ceil(targetAmount.value / this.budgetMonth);
 	},
-	
+
 	getRangeInfo: function () {
 		periodAmount.innerHTML = periodSelect.value;
 	},
 	getStatusIncome: function () {
 		return isNaN(this.budget) ? 'Упс! Где-то закралась ошибка...' :
 			(this.budget < 0) ? 'Что то пошло не так' :
-				(this.budget < 600) ? 'К сожалению у вас уровень дохода ниже среднего' :
-					(this.budget === 600) ? 'У вас почти средний уровень дохода, но немного не хватает...' :
-						(this.budget < 1200) ? 'У вас средний уровень дохода' :
-							(this.budget === 1200) ? 'У вас почти получилось попасть в группу с высокий уровень дохода! Постарайтесь лучше!' :
-								'У вас высокий уровень дохода';
+			(this.budget < 600) ? 'К сожалению у вас уровень дохода ниже среднего' :
+			(this.budget === 600) ? 'У вас почти средний уровень дохода, но немного не хватает...' :
+			(this.budget < 1200) ? 'У вас средний уровень дохода' :
+			(this.budget === 1200) ? 'У вас почти получилось попасть в группу с высокий уровень дохода! Постарайтесь лучше!' :
+			'У вас высокий уровень дохода';
 	},
 	getInfoDeposit: () => {
 		if (this.deposit) {
@@ -275,7 +274,7 @@ salaryAmountInput.addEventListener('input', appData.blockStart)
 // 	if (!/^[\d]+$/.test(e.target.value)) {
 // 		alert('Доупускается ввод только цифр!');
 // 	}	
- 
+
 // }
 // document.querySelectorAll('[placeholder="Наименование"]').forEach(item => {
 // 	item.addEventListener('input', changeString);
