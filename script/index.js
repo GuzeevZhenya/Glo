@@ -8,34 +8,29 @@ class DomElement {
 		this.text = text;
 	}
 
-
-
 	getSelector() {
 		let body = document.querySelector('body');
 		let newElement;
 		console.log(this.selector)
 		if (this.selector.startsWith('.')) {
 			newElement = document.createElement('div');
-			newElement.classList.add(this.selector);
+		 
+			newElement.classList.add(this.selector.slice(1));
 			body.append(newElement);
 		}
 		else if (this.selector.startsWith('#')){
 			newElement = document.createElement('p');
-			newElement.classList.add(this.selector);
+			newElement.classList.add(this.selector.slice(1));
 			body.append(newElement);
 		}
 		newElement.style.cssText = `
 			height:${this.height}px;
 			width: ${this.width}px;
-      background: ${this.bg};
-      font-size: ${this.fontSize}px;
+     		background: ${this.bg};
+      		font-size: ${this.fontSize}px;
 		`
 		newElement.innerHTML = this.text
 	}
-
- 
-
-
 }
 
 let element = new DomElement('.input', 100, 100, 'red', 20,'hi world');
