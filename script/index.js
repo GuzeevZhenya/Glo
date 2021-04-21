@@ -177,7 +177,7 @@ class AppData {
 
 	getAddExpenses() {
 		let addExpenses = additionalExpensesItemInput.value.split(',');
-		addExpenses.forEach(function (item) {
+		addExpenses.forEach( (item)=>{
 			item = item.trim();
 			if (item !== '') {
 				this.addExpenses.push(item);
@@ -186,7 +186,7 @@ class AppData {
 	}
 
 	getExpenses() {
-		expensesItems.forEach(function (item) {
+		expensesItems.forEach((item)=>{
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
@@ -197,7 +197,7 @@ class AppData {
 
 	getIncome() {
 		this.incomeMonth = 0;
-		incomeItems.forEach(function (item) {
+		incomeItems.forEach((item) =>{
 			let itemIncome = item.querySelector('.income-title').value;
 			let cashIncome = item.querySelector('.income-amount').value;
 			if (itemIncome !== '' && cashIncome !== '') {
@@ -209,15 +209,13 @@ class AppData {
 
 
 	getAddIncome() {
-		additionalIncomeItem.forEach(function (item) {
+		additionalIncomeItem.forEach((item) =>{
 			let itemValue = item.value.trim();
 			if (item.value !== '') {
 				this.addIncome.push(itemValue);
 			}
 		})
 	}
-
-
 
 	getExpensesMonth() {
 		for (let elem in this.expenses) {
