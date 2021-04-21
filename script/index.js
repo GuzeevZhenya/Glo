@@ -180,7 +180,7 @@ class AppData {
 		addExpenses.forEach(function (item) {
 			item = item.trim();
 			if (item !== '') {
-				appData.addExpenses.push(item);
+				this.addExpenses.push(item);
 			}
 		})
 	}
@@ -190,7 +190,7 @@ class AppData {
 			let itemExpenses = item.querySelector('.expenses-title').value;
 			let cashExpenses = item.querySelector('.expenses-amount').value;
 			if (itemExpenses !== '' && cashExpenses !== '') {
-				appData.expenses[itemExpenses] = cashExpenses;
+				this.expenses[itemExpenses] = cashExpenses;
 			}
 		})
 	}
@@ -201,8 +201,8 @@ class AppData {
 			let itemIncome = item.querySelector('.income-title').value;
 			let cashIncome = item.querySelector('.income-amount').value;
 			if (itemIncome !== '' && cashIncome !== '') {
-				appData.income[itemIncome] = +cashIncome;
-				appData.incomeMonth += +cashIncome;
+				this.income[itemIncome] = +cashIncome;
+				this.incomeMonth += +cashIncome;
 			}
 		})
 	}
@@ -212,7 +212,7 @@ class AppData {
 		additionalIncomeItem.forEach(function (item) {
 			let itemValue = item.value.trim();
 			if (item.value !== '') {
-				appData.addIncome.push(itemValue);
+				this.addIncome.push(itemValue);
 			}
 		})
 	}
@@ -280,6 +280,16 @@ class AppData {
 	}
 };
 
+// AppData.prototype.eventsListeners= function() {
+// 	this.blockStart();
+// 	buttonStart.addEventListener('click', this.start.bind(appData));
+// 	expensesPlus.addEventListener('click', this.addExpensesBlock.bind(appData));
+// 	incomePlus.addEventListener('click', this.addIncomeBlock.bind(appData));
+// 	periodSelect.addEventListener('input', this.calcSavedMoney);
+// 	salaryAmountInput.addEventListener('input', this.blockStart)
+// } 
+
+
 // let foo = appData.start.bind(appData);
 
 const appData = new AppData();
@@ -320,3 +330,4 @@ appData.eventsListeners();
 // document.querySelectorAll('[placeholder="Сумма"]').forEach(item => {
 // 	item.addEventListener('input', changeNumber);
 // })
+ 
