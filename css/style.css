@@ -36,7 +36,10 @@ ul {
     margin: 0;
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
     padding: 0;
     margin: 0;
 }
@@ -67,6 +70,11 @@ body {
     box-shadow: 0 2px 4px rgba(44, 62, 80, 0.15);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+}
+
+.spanch,
+.limur {
+    position: relative;
 }
 
 .header-input {
@@ -181,8 +189,8 @@ body {
 }
 
 .todo-remove {
-     background-image: url("../img/trash.png");
- }
+    background-image: url("../img/trash.png");
+}
 
 .todo-complete {
     background-image: url("../img/uncheck.png");

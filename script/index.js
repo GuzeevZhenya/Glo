@@ -1,24 +1,106 @@
-/* Напишите функцию на JS. Цель: Убрать все объекты с типом additional, а для basic очки уменьшить в двое.
+// let getMessage = function (name) {
+//   console.log('hi world');
+// }
 
-Изменить необходимо исходный массив*/
-const myLesson = [
-  {lesson: 1, type: 'basic', points: 2},
-  {lesson: 2, type: 'additional', points: 4},
-  {lesson: 3, type: 'basic', points: 6},
-  {lesson: 4, type: 'additional', points: 3},
-  {lesson: 5, type: 'basic', points: 4},
-  {lesson: 6, type: 'basic', points: 2},
-  {lesson: 7, type: 'additional', points: 2},
-  {lesson: 8, type: 'basic', points: 6},
-  {lesson: 9, type: 'basic', points: 4},
-  {lesson: 10, type: 'basic', points: 6},
-  {lesson: 11, type: 'additional', points: 5}, 
-  {lesson: 12, type: 'basic', points: 2}, 
-  {lesson: 13, type: 'additional', points: 2}, 
-  {lesson: 14, type: 'basic', points: 4},
-  {lesson: 15, type: 'additional', points: 1},
-  {lesson: 16, type: 'additional', points: 7},
-];
+// setTimeout(function () {
+//   console.log('erger')
+// }, 3000)
 
-let newArray = myLesson.filter(item=>item.type !=='additional').map(item=>item.points/2);
-console.log(newArray);
+
+// let idInterval = setInterval(getMessage, 2000, 'vasia');
+// let idSetTimeout = setTimeout(getMessage, 4000, 'anton');
+// clearInterval(idInterval);
+
+// const spanch = document.querySelector('.spanch');
+// const limur = document.querySelector('.limur');
+// let count = 0;
+// let flyInterval;
+
+// const flyAnimate = function() {
+//     flyInterval = requestAnimationFrame(flyAnimate);
+//     count++;
+
+//     if (count < 350) {
+//         spanch.style.left = count + 'px';
+//         limur.style.top = count + 'px';
+//     } else if (count < 500) {
+//         limur.style.top = count + 'px';
+//     } else {
+//         cancelAnimationFrame(flyInterval);
+//     }
+//     console.log(count);
+// };
+
+// let animate = false;
+
+// document.addEventListener('click', () => {
+//     if (animate) {
+//         flyInterval = requestAnimationFrame(flyAnimate);
+//         animate = false;
+//     } else {
+//         animate = true;
+//         cancelAnimationFrame(flyInterval);
+//     }
+
+// });
+// // let limurRun = function () {
+// //   count++;
+// //   limur.style.top = count + 'px';
+// //   if (count < 350) {
+// //     setTimeout(limurRun, 20);
+// //   }
+
+// // }
+
+// const date = new Date();
+
+window.addEventListener('DOMContentLoaded', () => {
+  
+  //Timer
+  function countTimer(deadline) {
+    let timerHours = document.querySelector('#timer-hours');
+    let timerMinuts = document.querySelector('#timer-minutes');
+    let timerSeconds = document.querySelector('#timer-seconds');
+    // Получаем конечную дату
+
+    function getTimeRemaining() {
+      let dateStop = new Date(deadline).getTime();
+      let dateNow = new Date().getTime();
+      let timeRemaining = (dateStop - dateNow) / 1000;
+      let seconds = Math.floor(timeRemaining % 60);
+      let minuts = Math.floor((timeRemaining / 60) % 60);
+      let hours = Math.floor(timeRemaining / 60 / 60) % 24;
+      let day = Math.floor(timeRemaining / 60 / 60 / 24);
+      return {
+        hours,
+        minuts,
+        seconds,
+        timeRemaining
+      };
+    }
+
+    function updateClock() {
+      let timer = getTimeRemaining();
+      timerHours.textContent = addZero(timer.hours);
+      timerMinuts.textContent = addZero(timer.minuts);
+      timerSeconds.textContent = addZero(timer.seconds);
+
+      console.log(timer);
+      if (timer.timeRemaining > 0) {
+        setInterval(updateClock, 1000);
+      } else {
+        timerHours.textContent = '00';
+        timerMinuts.textContent = '00';
+        timerSeconds.textContent = '00';
+        clearInterval(interval);
+      }
+    }
+
+    //Добавление 0
+    function addZero(n) {
+      return (parseInt(n, 10) < 10 ? '0' : '') + n;
+    }
+    let interval = setInterval(updateClock, 1000);
+  }
+  countTimer('23 april 2021');
+});
