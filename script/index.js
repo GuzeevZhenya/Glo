@@ -81,13 +81,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function updateClock() {
       let timer = getTimeRemaining();
-      timerHours.textContent = addZero(timer.hours);
-      timerMinuts.textContent = addZero(timer.minuts);
-      timerSeconds.textContent = addZero(timer.seconds);
-
       console.log(timer);
       if (timer.timeRemaining > 0) {
-        setInterval(updateClock, 1000);
+        timerHours.textContent = addZero(timer.hours);
+      timerMinuts.textContent = addZero(timer.minuts);
+      timerSeconds.textContent = addZero(timer.seconds);
       } else {
         timerHours.textContent = '00';
         timerMinuts.textContent = '00';
