@@ -5,6 +5,10 @@ const daysBeforeNewYear = document.querySelector('.daysBeforeNewYear');
 let days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятницы', 'Субботы'];
 let month = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 
+function addZero(n) {
+	return (parseInt(n, 10) < 10 ? '0' : '') + n;
+}
+
 function getTimeInfo(hour) {
 	if (hour > 0 && hour < 5) {
 		return 'Доброй ночи'
@@ -16,7 +20,6 @@ function getTimeInfo(hour) {
 		return 'Вечер'
 	}
 }
-
 
 function getTimeRemaining(deadline) {
 	const showAmPm = true;
@@ -35,12 +38,10 @@ function getTimeRemaining(deadline) {
 }
 
 function showInfo() {
-	let timer = getTimeRemaining('23 may 2021');
-	 
- 
+	let timer = getTimeRemaining('31 dec 2021');
 	dayTime.textContent = `${getTimeInfo(timer.hour)}`;
 	dayInfo.textContent = `Сегодня ${days[timer.dayName]}`;
-	time.textContent = `Текущее время: ${timer.hour}:${timer.min}:${timer.sec} ${timer.showAmPm ? amPm : ''}`;
+	time.textContent = `Текущее время: ${addZero(timer.hour)}:${addZero(timer.min)}:${addZero(timer.sec)} ${timer.showAmPm ? amPm : ''}`;
 	daysBeforeNewYear.textContent = `До нового года осталось ${timer.timeRemaining} дня`;
 }
 
@@ -50,13 +51,6 @@ setInterval(showInfo,1000);
 // setInterval(function () {
 // 	getTimeRemaining('23 jun 2021')
 // }, 1000);
-
-
-
-
-
-
-
 
 // setInterval(showTime('31 dec 2021'),1000);
 // setInterval(showTime('31 dec 2021'),1000);
