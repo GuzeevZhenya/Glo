@@ -102,14 +102,15 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     countTimer('31 april 2021');
 
+  
   //Меню
   const toggleMenu = (e) => {
     const btnMenu = document.querySelector('.menu');
     const menu = document.querySelector('menu');
     let closeBtn = document.querySelector('.close-btn');
     let menuItem = menu.querySelectorAll('ul>li');
-    const anhors = document.querySelectorAll('.menu-item')
-
+    const anhors = document.querySelectorAll('.scroll-link')
+//  Плавная прокрутка
     anhors.forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
@@ -137,11 +138,10 @@ window.addEventListener('DOMContentLoaded', () => {
       element.addEventListener('click', actionMenu);
     });
 
-
   };
   toggleMenu();
 
-  //popap
+  //popup
   function togglePopap(e) {
     const popup = document.querySelector('.popup');
     const popupBtn = document.querySelectorAll('.popup-btn');
@@ -175,6 +175,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (screen.width > 768) {
           popupData.count = popupData.startPos;
           requestAnimationFrame(showPopup);
+         // AnimationInterval = requestAnimationFrame(animationPopup);
         }
       })
     })
@@ -182,6 +183,18 @@ window.addEventListener('DOMContentLoaded', () => {
     popupClose.addEventListener('click', () => {
       popup.style.display = 'none';
     })
+
+    //const 
+    // animationPopup = () => {
+
+		// 	AnimationInterval = requestAnimationFrame(animationPopup);
+		// 	count++;
+		// 	if (count < 60) {
+		// 		popupContent.style.top = count * 3 + 'px';
+		// 	} else {
+		// 		cancelAnimationFrame(AnimationInterval);
+		// 	}
+		// };
 
   }
 
