@@ -56,60 +56,60 @@
 
 window.addEventListener('DOMContentLoaded', () => {
 
-//   //Timer
-//   function countTimer(deadline) {
-//     let timerHours = document.querySelector('#timer-hours');
-//     let timerMinuts = document.querySelector('#timer-minutes');
-//     let timerSeconds = document.querySelector('#timer-seconds');
+  //   //Timer
+  //   function countTimer(deadline) {
+  //     let timerHours = document.querySelector('#timer-hours');
+  //     let timerMinuts = document.querySelector('#timer-minutes');
+  //     let timerSeconds = document.querySelector('#timer-seconds');
 
-//     // Получаем конечную дату
-//     function getTimeRemaining() {
-//       let dateStop = new Date(deadline).getTime();
-//       let dateNow = new Date().getTime();
-//       let timeRemaining = (dateStop - dateNow) / 1000;
-//       let seconds = Math.floor(timeRemaining % 60);
-//       let minuts = Math.floor((timeRemaining / 60) % 60);
-//       let hours = Math.floor(timeRemaining / 60 / 60) % 24;
-//       let day = Math.floor(timeRemaining / 60 / 60 / 24);
-//       return {
-//         hours,
-//         minuts,
-//         seconds,
-//         timeRemaining
-//       };
-//     }
+  //     // Получаем конечную дату
+  //     function getTimeRemaining() {
+  //       let dateStop = new Date(deadline).getTime();
+  //       let dateNow = new Date().getTime();
+  //       let timeRemaining = (dateStop - dateNow) / 1000;
+  //       let seconds = Math.floor(timeRemaining % 60);
+  //       let minuts = Math.floor((timeRemaining / 60) % 60);
+  //       let hours = Math.floor(timeRemaining / 60 / 60) % 24;
+  //       let day = Math.floor(timeRemaining / 60 / 60 / 24);
+  //       return {
+  //         hours,
+  //         minuts,
+  //         seconds,
+  //         timeRemaining
+  //       };
+  //     }
 
-//     function updateClock() {
-//       let timer = getTimeRemaining();
-//       console.log(timer);
-//       if (timer.timeRemaining > 0) {
-//         timerHours.textContent = addZero(timer.hours);
-//         timerMinuts.textContent = addZero(timer.minuts);
-//         timerSeconds.textContent = addZero(timer.seconds);
-//       } else {
-//         timerHours.textContent = '00';
-//         timerMinuts.textContent = '00';
-//         timerSeconds.textContent = '00';
-//         clearInterval(interval);
-//       }
-//     }
+  //     function updateClock() {
+  //       let timer = getTimeRemaining();
+  //       console.log(timer);
+  //       if (timer.timeRemaining > 0) {
+  //         timerHours.textContent = addZero(timer.hours);
+  //         timerMinuts.textContent = addZero(timer.minuts);
+  //         timerSeconds.textContent = addZero(timer.seconds);
+  //       } else {
+  //         timerHours.textContent = '00';
+  //         timerMinuts.textContent = '00';
+  //         timerSeconds.textContent = '00';
+  //         clearInterval(interval);
+  //       }
+  //     }
 
-//     //Добавление 0
-//     function addZero(n) {
-//       return (parseInt(n, 10) < 10 ? '0' : '') + n;
-//     }
-//     let interval = setInterval(updateClock, 1000);
-//   }
-//   countTimer('31 april 2021');
+  //     //Добавление 0
+  //     function addZero(n) {
+  //       return (parseInt(n, 10) < 10 ? '0' : '') + n;
+  //     }
+  //     let interval = setInterval(updateClock, 1000);
+  //   }
+  //   countTimer('31 april 2021');
 
-//Меню
+  //Меню
   const toggleMenu = (e) => {
     const btnMenu = document.querySelector('.menu');
     const menu = document.querySelector('menu');
     let closeBtn = document.querySelector('.close-btn');
     let menuItem = menu.querySelectorAll('ul>li');
     const anhors = document.querySelectorAll('a[href*="#"]')
-    
+
     anhors.forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
@@ -137,50 +137,52 @@ window.addEventListener('DOMContentLoaded', () => {
       element.addEventListener('click', actionMenu);
     });
 
-   
+
   };
   toggleMenu();
-  
+
   //popap
   function togglePopap(e) {
     const popup = document.querySelector('.popup');
     const popupBtn = document.querySelectorAll('.popup-btn');
     const popupContent = document.querySelector('.popup-content');
     const popupClose = document.querySelector('.popup-close');
+    //Данные для анимации
     popupData = {
       count: -445,
       speed: 10,
       startPos: -445,
       endPos: 0
     };
+    //Сама аницамия 
     const showPopup = () => {
+      popupData.startPos > popupData.endPos ?
+        popupData.count -= popupData.speed :
+        popupData.count += popupData.speed;
+      popupContent.style.transform = `translateY(${popupData.count}px)`;
 
-			popupData.startPos > popupData.endPos ?
-				popupData.count -= popupData.speed :
-				popupData.count += popupData.speed;
-			popupContent.style.transform = `translateY(${popupData.count}px)`;
+      if (popupData.startPos > popupData.endPos ?
+        popupData.count > popupData.endPos :
+        popupData.count < popupData.endPos) {
+        requestAnimationFrame(showPopup);
+      }
+    };
 
-			if (popupData.startPos > popupData.endPos ?
-				popupData.count > popupData.endPos :
-				popupData.count < popupData.endPos) {
-				requestAnimationFrame(showPopup);
-			}
-		};
-  
     popupBtn.forEach((item) => {
-      item.addEventListener('click',() =>{
+      item.addEventListener('click', () => {
         popup.style.display = 'block';
+        //отключение анимации на мобилках
         if (screen.width > 768) {
-					popupData.count = popupData.startPos;
-					requestAnimationFrame(showPopup);
-				}
+          popupData.count = popupData.startPos;
+          requestAnimationFrame(showPopup);
+        }
       })
     })
 
     popupClose.addEventListener('click', () => {
       popup.style.display = 'none';
     })
-     
+
   }
 
   togglePopap()
