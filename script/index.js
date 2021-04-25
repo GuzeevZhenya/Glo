@@ -46,10 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	let body = document.querySelector('body');
 	const toggleMenu = (e) => {
-		const btnMenu = document.querySelector('.menu');
 		const menu = document.querySelector('menu');
-		let closeBtn = document.querySelector('.close-btn');
-		let menuItem = menu.querySelectorAll('ul>li');
 		const anhors = document.querySelectorAll('.scroll-link');
 		//  Плавная прокрутка
 		anhors.forEach(item => {
@@ -70,7 +67,7 @@ window.addEventListener('DOMContentLoaded', () => {
 					menu.classList.toggle('active-menu');
 				} else if (target !== menu && target.closest(('[href^="#"]'))) {
 					menu.classList.toggle('active-menu');
-					//Возможно тут ошибка
+					
 				} else {
 					if (!target.closest('menu')) {
 						menu.classList.toggle('active-menu');
