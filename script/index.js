@@ -1,61 +1,4 @@
-// // let getMessage = function (name) {
-// //   console.log('hi world');
-// // }
-
-// // setTimeout(function () {
-// //   console.log('erger')
-// // }, 3000)
-
-
-// // let idInterval = setInterval(getMessage, 2000, 'vasia');
-// // let idSetTimeout = setTimeout(getMessage, 4000, 'anton');
-// // clearInterval(idInterval);
-
-// // const spanch = document.querySelector('.spanch');
-// // const limur = document.querySelector('.limur');
-// // let count = 0;
-// // let flyInterval;
-
-// // const flyAnimate = function() {
-// //     flyInterval = requestAnimationFrame(flyAnimate);
-// //     count++;
-
-// //     if (count < 350) {
-// //         spanch.style.left = count + 'px';
-// //         limur.style.top = count + 'px';
-// //     } else if (count < 500) {
-// //         limur.style.top = count + 'px';
-// //     } else {
-// //         cancelAnimationFrame(flyInterval);
-// //     }
-// //     console.log(count);
-// // };
-
-// // let animate = false;
-
-// // document.addEventListener('click', () => {
-// //     if (animate) {
-// //         flyInterval = requestAnimationFrame(flyAnimate);
-// //         animate = false;
-// //     } else {
-// //         animate = true;
-// //         cancelAnimationFrame(flyInterval);
-// //     }
-
-// // });
-// // // let limurRun = function () {
-// // //   count++;
-// // //   limur.style.top = count + 'px';
-// // //   if (count < 350) {
-// // //     setTimeout(limurRun, 20);
-// // //   }
-
-// // // }
-
-const date = new Date();
-
 window.addEventListener('DOMContentLoaded', () => {
-
 	//Timer
 	function countTimer(deadline) {
 		let timerHours = document.querySelector('#timer-hours');
@@ -101,32 +44,13 @@ window.addEventListener('DOMContentLoaded', () => {
 	}
 	countTimer('31 april 2021');
 
-
-	//Меню
-	// const toggleMenu = (e) => {
-	// 	const btnMenu = document.querySelector('.menu');
-	// 	const menu = document.querySelector('menu');
-	// 	let closeBtn = document.querySelector('.close-btn');
-	// 	let menuItem = menu.querySelectorAll('ul>li');
-	// 	const anhors = document.querySelectorAll('.scroll-link')
-	// 	//  Плавная прокрутка
-	// 	anhors.forEach(item => {
-	// 		item.addEventListener('click', (e) => {
-	// 			e.preventDefault();
-	// 			const blockID = item.getAttribute('href');
-	// 			document.querySelector('' + blockID).scrollIntoView({
-	// 				behavior: "smooth",
-	// 				block: "start",
-	// 			})
-	// 		})
-	// 	})
-
-		const toggleMenu = (e) => {
+	let body = document.querySelector('body');
+	const toggleMenu = (e) => {
 		const btnMenu = document.querySelector('.menu');
 		const menu = document.querySelector('menu');
 		let closeBtn = document.querySelector('.close-btn');
 		let menuItem = menu.querySelectorAll('ul>li');
-		const anhors = document.querySelectorAll('.scroll-link')
+		const anhors = document.querySelectorAll('.scroll-link');
 		//  Плавная прокрутка
 		anhors.forEach(item => {
 			item.addEventListener('click', (e) => {
@@ -139,37 +63,24 @@ window.addEventListener('DOMContentLoaded', () => {
 			})
 		})
 
-		const handleMenu = (e)=>{
+		const handleMenu = (e) => {
 			let target = e.target;
-			console.log(target);
-			if(target.closest('.menu')){
-				menu.classList.toggle('active-menu');
-			}else if(target !== menu && target.closest(('[href^="#"]'))){
-				menu.classList.toggle('active-menu');
-				//Возможно тут ошибка
-			}else {
-				target = target.closest('menu');
-				if (!target) {
-					menu.style.display = 'none';
+			if (menu.classList.contains('active-menu')) {
+				if (target.closest('.menu')) {
+					menu.classList.toggle('active-menu');
+				} else if (target !== menu && target.closest(('[href^="#"]'))) {
+					menu.classList.toggle('active-menu');
+					//Возможно тут ошибка
+				} else {
+					if (!target.closest('menu')) {
+						menu.classList.toggle('active-menu');
+					}
 				}
+			} else if (target.closest('.menu')) {
+				menu.classList.toggle('active-menu');
 			}
-			 
-		
 		}
-
-	 
-
-		btnMenu.addEventListener('click', handleMenu)
-		menu.addEventListener('click', handleMenu);
-
-		// closeBtn.addEventListener('click', () => {
-		// 	actionMenu();
-		// })
-
-		// menuItem.forEach(element => {
-		// 	element.addEventListener('click', actionMenu);
-		// });
-
+		body.addEventListener('click', handleMenu);
 	};
 	toggleMenu();
 
