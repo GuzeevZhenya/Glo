@@ -67,7 +67,6 @@ window.addEventListener('DOMContentLoaded', () => {
 					menu.classList.toggle('active-menu');
 				} else if (target !== menu && target.closest(('[href^="#"]'))) {
 					menu.classList.toggle('active-menu');
-					
 				} else {
 					if (!target.closest('menu')) {
 						menu.classList.toggle('active-menu');
@@ -131,7 +130,6 @@ window.addEventListener('DOMContentLoaded', () => {
 			}
 		})
 
-		//const 
 		// animationPopup = () => {
 
 		// 	AnimationInterval = requestAnimationFrame(animationPopup);
@@ -175,9 +173,47 @@ window.addEventListener('DOMContentLoaded', () => {
 					}
 				})
 			}
-			//Задаем для спана класс родителя
 		})
 	}
 
 	tabs();
+
+	//Слайдер
+	const slider = () => {
+		const slide = document.querySelectorAll('.portfolio-item');
+		const btn = document.querySelectorAll('.portfolio-btn');
+		const dot = document.querySelectorAll('.dot');
+		const slider = document.querySelector('.portfolio-content');
+		console.log(slide);
+		let currentSlide = 0;
+
+		const prevSlide = (elem, index, strClass) => {
+			elem[index].classList.remove(strClass);
+		}
+		const nextSlide = (elem, index, strClass) => {
+			elem[index].classList.add(strClass);
+		}
+
+		const autoPlaySlide = () => {
+			prevSlide(slide, currentSlide, 'portfolio-item-active')
+			prevSlide(dot,currentSlide,'dot-active');
+
+			currentSlide++;
+			if (currentSlide >= slide.length) {
+				currentSlide = 0;
+			}
+			nextSlide(slide, currentSlide, 'portfolio-item-active')
+			nextSlide(dot,slide,'current-slide');
+		};
+
+		const startSlide = (time) => {
+			setInterval(autoPlaySlide, time);
+		}
+
+		const stopSlide = () => {
+
+		};
+		startSlide(1500);
+	};
+	slider();
 });
