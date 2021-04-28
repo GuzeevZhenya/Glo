@@ -1,274 +1,101 @@
-window.addEventListener('DOMContentLoaded', () => {
-	//Timer
-	function countTimer(deadline) {
-		let timerHours = document.querySelector('#timer-hours');
-		let timerMinuts = document.querySelector('#timer-minutes');
-		let timerSeconds = document.querySelector('#timer-seconds');
-
-		// Получаем конечную дату
-		function getTimeRemaining() {
-			let dateStop = new Date(deadline).getTime();
-			let dateNow = new Date().getTime();
-			let timeRemaining = (dateStop - dateNow) / 1000;
-			let seconds = Math.floor(timeRemaining % 60);
-			let minuts = Math.floor((timeRemaining / 60) % 60);
-			let hours = Math.floor(timeRemaining / 60 / 60) % 24;
-			let day = Math.floor(timeRemaining / 60 / 60 / 24);
-			return {
-				hours,
-				minuts,
-				seconds,
-				timeRemaining
-			};
-		}
-
-		function updateClock() {
-			let timer = getTimeRemaining();
-			if (timer.timeRemaining > 0) {
-				timerHours.textContent = addZero(timer.hours);
-				timerMinuts.textContent = addZero(timer.minuts);
-				timerSeconds.textContent = addZero(timer.seconds);
-			} else {
-				timerHours.textContent = '00';
-				timerMinuts.textContent = '00';
-				timerSeconds.textContent = '00';
-				clearInterval(interval);
-			}
-		}
-
-		//Добавление 0
-		function addZero(n) {
-			return (parseInt(n, 10) < 10 ? '0' : '') + n;
-		}
-		let interval = setInterval(updateClock, 1000);
+class Todo {
+	constructor(form, input, todoList, todoCompleted) {
+		this.form = document.querySelector(form)
+		this.input = document.querySelector(input)
+		this.todoList = document.querySelector(todoList)
+		this.todoCompleted = document.querySelector(todoCompleted)
+		this.todoData = new Map(JSON.parse(localStorage.getItem('todoList')));
 	}
-	countTimer('31 april 2021');
 
-	let body = document.querySelector('body');
-	const toggleMenu = (e) => {
-		const menu = document.querySelector('menu');
-		const anhors = document.querySelectorAll('.scroll-link');
-		//  Плавная прокрутка
-		anhors.forEach(item => {
-			item.addEventListener('click', (e) => {
-				e.preventDefault();
-				const blockID = item.getAttribute('href');
-				document.querySelector('' + blockID).scrollIntoView({
-					behavior: "smooth",
-					block: "start",
-				})
-			})
-		})
+	init() {
+		this.form.addEventListener('submit',this.addTodo.bind(this));
+		this.render();
+	
+	}
 
-		const handleMenu = (e) => {
-			let target = e.target;
-			if (menu.classList.contains('active-menu')) {
-				if (target.closest('.menu')) {
-					menu.classList.toggle('active-menu');
-				} else if (target !== menu && target.closest(('[href^="#"]'))) {
-					menu.classList.toggle('active-menu');
-				} else {
-					if (!target.closest('menu')) {
-						menu.classList.toggle('active-menu');
-					}
-				}
-			} else if (target.closest('.menu')) {
-				menu.classList.toggle('active-menu');
-			}
+	render() {
+		this.todoList.textContent = '';
+		this.todoCompleted.textContent = '';
+		this.todoData.forEach(this.createItem,this);
+		this.addToStorage()
+		this.handler();
+	}
+
+	addToStorage() {
+		localStorage.setItem('todoList', JSON.stringify([...this.todoData]))
+		
+	}
+
+	createItem(todo) {
+		const li = document.createElement('li');
+		li.classList.add('todo-item');
+		li.insertAdjacentHTML('beforeend', `
+		<span class="text-todo">${todo.value}</span>
+				<div class="todo-buttons">
+					<button class="todo-remove"></button>
+					<button class="todo-complete"></button>
+				</div>
+		`)
+		if (todo.completed) {
+			this.todoCompleted.append(li)
+		} else {
+			this.todoList.append(li);
 		}
-		body.addEventListener('click', handleMenu);
-	};
-	toggleMenu();
+	}
 
-	//popup
-	function togglePopup(e) {
-		const popup = document.querySelector('.popup');
-		const popupBtn = document.querySelectorAll('.popup-btn');
-		const popupContent = document.querySelector('.popup-content');
-		//Данные для анимации
-		popupData = {
-			count: -445,
-			speed: 10,
-			startPos: -445,
-			endPos: 0
-		};
-		//Сама аницамия 
-		const showPopup = () => {
-			popupData.startPos > popupData.endPos ?
-				popupData.count -= popupData.speed :
-				popupData.count += popupData.speed;
-			popupContent.style.transform = `translateY(${popupData.count}px)`;
-			if (popupData.startPos > popupData.endPos ?
-				popupData.count > popupData.endPos :
-				popupData.count < popupData.endPos) {
-				requestAnimationFrame(showPopup);
+	addTodo(e) {
+		e.preventDefault();
+		if (this.input.value.trim()) {
+			const newTodo = {
+				value: this.input.value,
+				completed: false,
+				key: this.generateKey()
 			}
-		};
+			this.todoData.set(newTodo.key, newTodo);
+			this.render();
+		}
+	}
 
-		popupBtn.forEach((item) => {
-			item.addEventListener('click', () => {
-				popup.style.display = 'block';
-				//отключение анимации на мобилках
-				if (screen.width > 768) {
-					popupData.count = popupData.startPos;
-					requestAnimationFrame(showPopup);
-					// AnimationInterval = requestAnimationFrame(animationPopup);
+	 // генерации ключей для добавления нового дела
+	generateKey() {
+		return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substr(2, 15);
+	}
+
+	deleteItem(){
+		 this.todoData.forEach((item,i)=>{
+			item.splice(i, 1)
+		 })
+	}
+
+	completedItem(element){
+		 this.todoData.forEach(item=>{
+			 if(item.key === element){
+				item.completed = !item.completed;
+			 }
+			 this.render();
+		 })
+		
+
+	}
+
+	handler(){
+		//делегирование
+			const buttons = document.querySelector('.todo-container');
+			buttons.addEventListener('click',(e)=>{
+				let target = e.target;
+				if(target.matches('.todo-remove')){
+					 const element = target.closest('.todo-item').key;
+					 this.deleteItem();
+				} else if (target.classList.contains('todo-complete')) {
+					const element = target.closest('.todo-item');
+					console.log(element.value);
+					this.completedItem(element);
 				}
 			})
-		})
-
-		//Если нажимаем мимо формы, то закрываем попап
-		popup.addEventListener('click', (e) => {
-			let target = event.target;
-			if (target.classList.contains('popup-close')) {
-				popup.style.display = 'none';
-			} else {
-				target = target.closest('.popup-content');
-				if (!target) {
-					popup.style.display = 'none';
-				}
-			}
-		})
-
-		// animationPopup = () => {
-
-		// 	AnimationInterval = requestAnimationFrame(animationPopup);
-		// 	count++;
-		// 	if (count < 60) {
-		// 		popupContent.style.top = count * 3 + 'px';
-		// 	} else {
-		// 		cancelAnimationFrame(AnimationInterval);
-		// 	}
-		// }; 
 	}
+	 
 
-	togglePopup()
+}
 
-	//Табы
-	const tabs = () => {
-		const tabHeader = document.querySelector('.service-header'),
-			tab = tabHeader.querySelectorAll('.service-header-tab'),
-			tabContent = document.querySelectorAll('.service-tab');
-
-		const toggleTabContent = index => {
-			for (let i = 0; i < tabContent.length; i++) {
-				if (index === i) {
-					tab[i].classList.add('active');
-					tabContent[i].classList.remove('d-none');
-				} else {
-					tab[i].classList.remove('active');
-					tabContent[i].classList.add('d-none');
-				}
-			}
-		};
-
-		tabHeader.addEventListener('click', (event) => {
-			let target = event.target;
-			target = target.closest('.service-header-tab');
-			//Проверка если мы попали не по элементу а по спану
-			if (target) {
-				tab.forEach((item, i) => {
-					if (item === target) {
-						toggleTabContent(i);
-					}
-				})
-			}
-		})
-	}
-
-	tabs();
-
-	//Слайдер
-	const slider = () => {
-		const slide = document.querySelectorAll('.portfolio-item'),
-			// btn = document.querySelectorAll('.portfolio-btn'),
-			dot = document.querySelectorAll('.dot'),
-			slider = document.querySelector('.portfolio-content');
-		console.log(slide);
-		let currentSlide = 0;
-		let interval;
-
-		const prevSlide = (elem, index, strClass) => {
-			elem[index].classList.remove(strClass);
-		};
-
-		const nextSlide = (elem, index, strClass) => {
-			elem[index].classList.add(strClass);
-		};
-
-		const autoPlaySlide = () => {
-			prevSlide(slide, currentSlide, 'portfolio-item-active');
-			prevSlide(dot, currentSlide, 'dot-active');
-			currentSlide = currentSlide < slide.length - 1 ? currentSlide + 1 : 0;
-			nextSlide(slide, currentSlide, 'portfolio-item-active');
-			nextSlide(dot, currentSlide, 'dot-active');
-		};
-
-		const startSlide = (time = 4000) => {
-			interval = setInterval(autoPlaySlide, time);
-		};
-
-		const stopSlide = () => {
-			clearInterval(interval);
-		};
-
-		slider.addEventListener('click', (event) => {
-			event.preventDefault();
-			let target = event.target;
-			if (target.matches('.portfolio-btn, .dot')) {
-				prevSlide(slide, currentSlide, 'portfolio-item-active');
-				prevSlide(dot, currentSlide, 'dot-active');
-
-				if (target.matches('#arrow-right')) {
-					currentSlide++;
-				} else if (target.matches('#arrow-left')) {
-					currentSlide--;
-				} else if (target.matches('.dot')) {
-					dot.forEach((elem, index) => {
-						if (elem === target) {
-							currentSlide = index;
-						}
-					});
-				}
-			}
-			if (currentSlide >= slide.length) {
-				currentSlide = 0;
-			}
-			if (currentSlide < 0) {
-				currentSlide = slide.length - 1;
-			}
-			nextSlide(slide, currentSlide, 'portfolio-item-active');
-			nextSlide(dot, currentSlide, 'dot-active');
-		})
-
-		slider.addEventListener('mouseover', event => {
-			if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
-				stopSlide();
-			}
-		});
-
-		slider.addEventListener('mouseout', event => {
-			if (event.target.matches('.portfolio-btn') || event.target.matches('.dot')) {
-				startSlide();
-			}
-		});
-
-		startSlide(4500);
-
-	};
-	// add point dot
-	const addDot = () => {
-		const portfolioItem = document.querySelectorAll('.portfolio-item'),
-			portfolioDots = document.querySelector('.portfolio-dots');
-
-		portfolioItem.forEach(() => {
-			const dot = document.createElement('li');
-			dot.classList.add('dot');
-			portfolioDots.appendChild(dot);
-		});
-
-		portfolioDots.children[0].classList.add('dot-active');
-	};
-	addDot();
-	slider();
-});
+const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
+todo.init();
