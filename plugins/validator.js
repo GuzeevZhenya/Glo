@@ -1,15 +1,12 @@
 class Validator {
-    constructor({
-        selector,
-        pattern = {},
-        method
-    }) {
+    constructor({selector,pattern = {},method}) {
         this.form = document.querySelector(selector);
         this.pattern = pattern;
         this.method = method;
         this.elementsForm = [...this.form.elements].filter(item => {
             return item.tagName.toLowerCase() !== 'button' && item.type !== 'button'
         })
+        // Сохранение полей ввода, если там ошибка (без повторений)
         this.error = new Set();
     }
     init() {
@@ -36,6 +33,7 @@ class Validator {
                 return pattern.test(elem.value)
             }
         };
+           // делаем проверку, если не пришли методы от пользователя
         if (this.method) {
             const method = this.method[elem.id]
             if (method) {
@@ -49,16 +47,20 @@ class Validator {
         return true;
 
     }
+    // запуск проверки на валидность и вызывать showError/showSuccess
     checkIt(event) {
         const target = event.target;
         if (this.isValid(target)) {
             this.showSuccess(target);
+              // Удаление инпутов из коллекцию ошибок
             this.error.delete(target);
         } else {
             this.showError(target);
+                  // Добавление инпутов в коллекцию ошибок
             this.error.add(target);
         }
     }
+     // Ошибка валидации
     showError(elem) {
         elem.classList.remove('success');
         elem.classList.add('error');
@@ -70,7 +72,7 @@ class Validator {
         errorDiv.classList.add('validator-error');
         elem.insertAdjacentElement('afterend', errorDiv);
     }
-
+//Валидация прошла успешно
     showSuccess(elem) {
         elem.classList.remove('error');
         elem.classList.add('success');
@@ -78,6 +80,7 @@ class Validator {
             elem.nextElementSibling.remove();
         }
     }
+       // Добавление стилей
     applyStyle() {
         const style = document.createElement('style');
         style.textContent = `
