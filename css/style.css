@@ -218,6 +218,10 @@ body {
     margin: 0 0 0 -75px;
 }
 
+.hidden {
+    font-size: 40px;
+}
+
 .todo:empty:after {
     content: 'Нет задач';
     margin: 15px 0 0 0;

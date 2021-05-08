@@ -326,36 +326,35 @@ window.addEventListener('DOMContentLoaded', () => {
 	}
 	calc(100);
 
-	//send-ajax-form
+	// send-ajax-form
 	const sendForm = () => {
-		const errorMessage = 'Что-то пошло не так...',
-			loadMessage = 'Загрузка...',
-			successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
-
-		const postData = (body, outputData, errorData) => {
+		const postData = body => fetch('./server.php', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(body)
+		});
+		/* new Promise((resolve, reject) => {
 			const request = new XMLHttpRequest();
-
 			request.addEventListener('readystatechange', () => {
 				if (request.readyState !== 4) {
 					return;
 				}
-
 				if (request.status === 200) {
-					outputData();
+					resolve();
 				} else {
-					errorData(request.status);
+					reject(request.status);
 				}
 			});
-
 			request.open('POST', './server.php');
-			// request.setRequestHeader('Content-Type', 'multipart/form-data');
 			request.setRequestHeader('Content-Type', 'application/json');
-			// request.send(formData);
 			request.send(JSON.stringify(body));
-		};
+		}); */
 
 		const clearInput = idForm => {
 			const form = document.getElementById(idForm);
+
 			[...form.elements]
 			.filter(item =>
 					item.tagName.toLowerCase() !== 'button' &&
@@ -366,12 +365,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		const isValid = event => {
 			const target = event.target;
+
 			if (target.matches('.form-phone')) {
 				target.value = target.value.replace(/[^+\d]/g, '');
 			}
+
 			if (target.name === 'user_name') {
 				target.value = target.value.replace(/[^а-яё ]/gi, '');
 			}
+
 			if (target.matches('.mess')) {
 				target.value = target.value.replace(/[^а-яё ,.]/gi, '');
 			}
@@ -381,42 +383,70 @@ window.addEventListener('DOMContentLoaded', () => {
 			const form = document.getElementById(idForm);
 			const statusMessage = document.createElement('div');
 
-			// statusMessage.textContent = 'Тут будет сообщение!';
+			const showStatus = status => {
+				const img = document.createElement('img');
+				const statusList = {
+					load: {
+						message: ' Загрузка...',
+						img: './images/message/waiting.gif'
+					},
+					error: {
+						message: ' Что-то пошло не так...',
+						img: './images/message/Err.png'
+					},
+					success: {
+						message: ' Спасибо! Мы скоро с вами свяжемся!',
+						img: './images/message/OK.png'
+					}
+				};
+				statusMessage.textContent = statusList[status].message;
+		
+				img.src = statusList[status].img;
+				img.height = 50;
+
+				statusMessage.insertBefore(img, statusMessage.firstChild);
+				setTimeout(()=>statusMessage.style.display = 'none',2000);
+				
+			};
+			 
+
 			statusMessage.style.cssText = 'font-size: 2rem; color: #fff';
-			// form.appendChild(statusMessage);
 
 			form.addEventListener('submit', event => {
-				const formData = new FormData(form);
-				const body = {};
+				// const formData = new FormData(form);
+				// const body = {};
 
-				statusMessage.textContent = loadMessage;
 				event.preventDefault();
+
+				showStatus('load');
+
 				form.appendChild(statusMessage);
 
-				/* for (let val of formData.entries()) {
-					body[val[0]] = val[1];
-				} */
-
-				formData.forEach((val, key) => {
+				/* formData.forEach((val, key) => {
 					body[key] = val;
-				});
+				}); */
 
-				postData(body, () => {
-					statusMessage.textContent = successMessage;
-					clearInput(idForm);
-				}, error => {
-					statusMessage.textContent = errorMessage;
-					console.error(error);
-				});
+				// postData(body)
+				postData(Object.fromEntries(new FormData(form)))
+					.then(response => {
+						if (response.status !== 200) throw new Error(`Status network ${request.status}`);
+						showStatus('success');
+						clearInput(idForm);
+					})
+					.catch(error => {
+						showStatus('error');
+						console.error(error);
+					});
 			});
+
 			form.addEventListener('input', isValid);
 		};
-
 
 		processingForm('form1');
 		processingForm('form2');
 		processingForm('form3');
 	};
+
 
 	sendForm();
 });
