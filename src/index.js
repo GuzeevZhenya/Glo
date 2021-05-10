@@ -9,7 +9,7 @@ import addDot from './modules/addDot';
 
 
 
-countTimer('31 april 2021');
+countTimer('31 may 2021');
 toggleMenu();
 togglePopup()
 tabs();

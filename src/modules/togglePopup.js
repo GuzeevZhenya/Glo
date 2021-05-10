@@ -6,7 +6,7 @@ function togglePopup(e) {
     //Данные для анимации
     let popupData = {
         count: -445,
-        speed: 10,
+        speed: 20,
         startPos: -445,
         endPos: 0
     };
