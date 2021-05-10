@@ -55,7 +55,7 @@ const sendForm = () => {
 			statusMessage.textContent = statusList[status].message;
 			img.src = statusList[status].img;
 			img.height = 50;
-
+			setTimeout(()=>statusMessage.style.display = 'none',2000);
 			statusMessage.insertBefore(img, statusMessage.firstChild);
 		};
 
@@ -77,8 +77,6 @@ const sendForm = () => {
 				})
 				.catch(error => {
 					showStatus('error');
-
-					console.error(error);
 				});
 		});
 

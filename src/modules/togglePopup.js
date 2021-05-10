@@ -22,6 +22,10 @@ function togglePopup(e) {
             requestAnimationFrame(showPopup);
         }
     };
+    for(let i =1;i<popupBtn.length;i++){
+        popupBtn[i].style.display = 'none';
+    }
+
 
     popupBtn.forEach((item) => {
         item.addEventListener('click', () => {
@@ -30,10 +34,12 @@ function togglePopup(e) {
             if (screen.width > 768) {
                 popupData.count = popupData.startPos;
                 requestAnimationFrame(showPopup);
+                
                 // AnimationInterval = requestAnimationFrame(animationPopup);
             }
         })
     })
+    
 
     //Если нажимаем мимо формы, то закрываем попап
     popup.addEventListener('click', (e) => {

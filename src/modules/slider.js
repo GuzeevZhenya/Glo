@@ -4,7 +4,6 @@ const slider = () => {
         // btn = document.querySelectorAll('.portfolio-btn'),
         dot = document.querySelectorAll('.dot'),
         slider = document.querySelector('.portfolio-content');
-    console.log(slide);
     let currentSlide = 0;
     let interval;
 
