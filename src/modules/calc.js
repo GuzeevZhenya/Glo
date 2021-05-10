@@ -3,8 +3,8 @@ const calc = (price = 100) => {
     const calcType = document.querySelector('.calc-type');
     const calcSquare = document.querySelector('.calc-square');
     const calcDay = document.querySelector('.calc-day');
-    calcCount = document.querySelector('.calc-count');
-    totalValue = document.getElementById('total');
+    const calcCount = document.querySelector('.calc-count');
+    const totalValue = document.getElementById('total');
 
     const countSum = () => {
         let total = 0;

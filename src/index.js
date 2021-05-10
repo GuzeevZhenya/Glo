@@ -5,6 +5,7 @@ import tabs from './modules/tabs';
 import slider from './modules/slider';
 import sendForm from './modules/sendForm';
 import calc from './modules/calc';
+import addDot from './modules/addDot';
 
 
 

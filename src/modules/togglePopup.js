@@ -4,7 +4,7 @@ function togglePopup(e) {
     const popupBtn = document.querySelectorAll('.popup-btn');
     const popupContent = document.querySelector('.popup-content');
     //Данные для анимации
-    popupData = {
+    let popupData = {
         count: -445,
         speed: 10,
         startPos: -445,
