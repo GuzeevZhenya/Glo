@@ -7,10 +7,10 @@ import sendForm from './modules/sendForm';
 import calc from './modules/calc';
 import addDot from './modules/addDot';
 import changeImages from './modules/changeImages';
-import validator from './modules/validator';
+import validateInputs from './modules/validateInputs';
 
 countTimer('31 may 2021');
-validator();
+validateInputs();
 toggleMenu();
 togglePopup()
 tabs();
