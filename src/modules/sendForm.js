@@ -55,7 +55,9 @@ const sendForm = () => {
 			statusMessage.textContent = statusList[status].message;
 			img.src = statusList[status].img;
 			img.height = 50;
-			setTimeout(()=>statusMessage.style.display = 'none',2000);
+			setTimeout(() => {
+				statusMessage.textContent = '';
+			}, 2000);
 			statusMessage.insertBefore(img, statusMessage.firstChild);
 		};
 

@@ -22,9 +22,9 @@ function togglePopup(e) {
             requestAnimationFrame(showPopup);
         }
     };
-    for(let i =1;i<popupBtn.length;i++){
-        popupBtn[i].style.display = 'none';
-    }
+    // for(let i =1;i<popupBtn.length;i++){
+    //     popupBtn[i].style.display = 'none';
+    // }
 
 
     popupBtn.forEach((item) => {
