@@ -1,104 +1,134 @@
-// let getMessage = function (name) {
-//   console.log('hi world');
-// }
+document.addEventListener('DOMContentLoaded', () => {
+	const input = document.getElementById('input'),
+		output = document.getElementById('output'),
+		langInput = document.getElementById('lang-input'),
+		langOutput = document.getElementById('lang-output'),
+		// hint = 'hint=ru,en,uk,be,de',
+		key = 'key=trnsl.1.1.20200307T061707Z.8310b70b1d438a2a.df290f9c12d18ba3de02132843fea4c03204ca9b';
 
-// setTimeout(function () {
-//   console.log('erger')
-// }, 3000)
+	const sendRequest = (url, str = '') => fetch(url, {
+		method: 'POST',
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		body: str,
+	});
 
+	const textTranslation = text => {
+		const lang = langInput.value + '-' + langOutput.value;
+		const url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?' + key +
+			'&text=' + encodeURIComponent(text) +
+			'&lang=' + lang +
+			'&format=html';
 
-// let idInterval = setInterval(getMessage, 2000, 'vasia');
-// let idSetTimeout = setTimeout(getMessage, 4000, 'anton');
-// clearInterval(idInterval);
+		sendRequest(url)
+			.then(response => {
+				if (response.status !== 200)
+					throw new Error(`Status network ${response.status} (${response.statusText})`);
+					// console.error(new Error(`Status network ${response.status} (${response.statusText})`));
+				return response.clone().json();
+			})
+			.then(data => {
+				if (data.code !== 200)
+					throw new Error(`Yandex response: ${data.message} (${data.code})`);
 
-// const spanch = document.querySelector('.spanch');
-// const limur = document.querySelector('.limur');
-// let count = 0;
-// let flyInterval;
+				output.innerHTML = data.text;
+			})
+			.catch(error => console.error(error));
+	};
 
-// const flyAnimate = function() {
-//     flyInterval = requestAnimationFrame(flyAnimate);
-//     count++;
+	const getOutputLanguage = lang => {
+		const url = 'https://translate.yandex.net/api/v1.5/tr.json/getLangs?ui=ru&' + key;
 
-//     if (count < 350) {
-//         spanch.style.left = count + 'px';
-//         limur.style.top = count + 'px';
-//     } else if (count < 500) {
-//         limur.style.top = count + 'px';
-//     } else {
-//         cancelAnimationFrame(flyInterval);
-//     }
-//     console.log(count);
-// };
+		sendRequest(url)
+			.then(response => {
+				if (response.status !== 200) {
+					throw new Error(`Status network ${response.status} (${response.statusText})`);
+				}
+				return response.clone().json();
+			})
+			.then(data => {
+				const outLangs = data.dirs.filter(item => item.split('-')[0] === lang).map(item => item.split('-')[1]);
+				const langOut = !langOutput.value && lang === 'ru' ? 'en' :
+					langInput.value === langOutput.value &&
+						lang !== langInput.value &&
+						outLangs.includes(langInput.value) ? langInput.value :
+						outLangs.includes(langOutput.value) && lang !== langOutput.value ? langOutput.value :
+							outLangs.includes('ru') ? 'ru' :
+								outLangs.includes('en') ? 'en' : outLangs[0];
 
-// let animate = false;
+				Object.keys(data.langs).filter(item => outLangs.includes(item)).forEach(key => {
+					const option = document.createElement('option');
 
-// document.addEventListener('click', () => {
-//     if (animate) {
-//         flyInterval = requestAnimationFrame(flyAnimate);
-//         animate = false;
-//     } else {
-//         animate = true;
-//         cancelAnimationFrame(flyInterval);
-//     }
+					option.value = key;
+					option.textContent = data.langs[key];
+					if (key === langOut) option.selected = true;
 
-// });
-// // let limurRun = function () {
-// //   count++;
-// //   limur.style.top = count + 'px';
-// //   if (count < 350) {
-// //     setTimeout(limurRun, 20);
-// //   }
+					langOutput.appendChild(option);
+					if (input.value.trim() !== '') textTranslation(input.value.trim());
+				});
+			})
+			.catch(error => console.error(error));
+	};
 
-// // }
+	const getInputLanguage = lang => {
+		const url = 'https://translate.yandex.net/api/v1.5/tr.json/getLangs?ui=ru&' + key;
 
-// const date = new Date();
+		sendRequest(url)
+			.then(response => {
+				if (response.status !== 200) {
+					throw new Error(`Status network ${response.status} (${response.statusText})`);
+				}
+				return response.clone().json();
+			})
+			.then(data => {
+				Object.keys(data.langs).forEach(key => {
+					const option = document.createElement('option');
 
-window.addEventListener('DOMContentLoaded', () => {
-  
-  //Timer
-  function countTimer(deadline) {
-    let timerHours = document.querySelector('#timer-hours');
-    let timerMinuts = document.querySelector('#timer-minutes');
-    let timerSeconds = document.querySelector('#timer-seconds');
-    // Получаем конечную дату
+					option.value = key;
+					option.textContent = data.langs[key];
+					if (key === lang) option.selected = true;
 
-    function getTimeRemaining() {
-      let dateStop = new Date(deadline).getTime();
-      let dateNow = new Date().getTime();
-      let timeRemaining = (dateStop - dateNow) / 1000;
-      let seconds = Math.floor(timeRemaining % 60);
-      let minuts = Math.floor((timeRemaining / 60) % 60);
-      let hours = Math.floor(timeRemaining / 60 / 60) % 24;
-      let day = Math.floor(timeRemaining / 60 / 60 / 24);
-      return {
-        hours,
-        minuts,
-        seconds,
-        timeRemaining
-      };
-    }
+					langInput.appendChild(option);
+				});
+				getOutputLanguage(lang);
+			})
+			.catch(error => console.error(error));
+	};
 
-    function updateClock() {
-      let timer = getTimeRemaining();
-      console.log(timer);
-      if (timer.timeRemaining > 0) {
-        timerHours.textContent = addZero(timer.hours);
-      timerMinuts.textContent = addZero(timer.minuts);
-      timerSeconds.textContent = addZero(timer.seconds);
-      } else {
-        timerHours.textContent = '00';
-        timerMinuts.textContent = '00';
-        timerSeconds.textContent = '00';
-        clearInterval(interval);
-      }
-    }
+	const langDefinition = text => {
+		const url = 'https://translate.yandex.net/api/v1.5/tr.json/detect?' +
+			// '?' + key + '&' + hint + '&text=' + encodeURIComponent(text);
+			key + '&text=' + encodeURIComponent(text);
 
-    //Добавление 0
-    function addZero(n) {
-      return (parseInt(n, 10) < 10 ? '0' : '') + n;
-    }
-    let interval = setInterval(updateClock, 1000);
-  }
-  countTimer('23 april 2021');
+		sendRequest(url)
+			.then(response => {
+				if (response.status !== 200)
+					throw new Error(`Status network ${response.status} (${response.statusText})`);
+				return response.clone().json();
+			})
+			.then(data => {
+				if (data.code !== 200)
+					throw new Error(`Yandex response: ${data.code}`);
+				for (const item of langInput.children) {
+					if (item.value === data.lang) {
+						item.selected = true;
+					} else if (item.selected) item.selected = false;
+				}
+				getOutputLanguage(data.lang);
+				if (input.value.trim() !== '') textTranslation(input.value.trim());
+			})
+			.catch(error => console.error(error));
+	};
+
+	const init = () => {
+		getInputLanguage('ru');
+
+		input.addEventListener('input', event => langDefinition(event.target.value));
+		langInput.addEventListener('change', event => getOutputLanguage(event.target.value));
+		langOutput.addEventListener('change', event => getOutputLanguage(event.target.value));
+	};
+
+	init();
 });
